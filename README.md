@@ -14,4 +14,8 @@
  - partie etudiants ( il y'a deja le dashboard )
  - Le groupe 7
  - faire la video et le rapport
- 
+ - pour faciliter le  travail, vous devez créer un nouveau  dossier dans le fichier www
+ - vous ouvrez le nouveau dossier dans visual studio
+ - vous dans le terminal de vscode  on tape la commande 'git clone https://github.com/LindsayRKG/Gestion_Etu'
+
+ - Pour récupérer les dernières modifications en ligne on tape "git pull"
