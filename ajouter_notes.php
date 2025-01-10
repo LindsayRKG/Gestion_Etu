@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Modifier un étudiant</title>
 
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="/assets/css/style.css"> -->
+    <link rel="stylesheet" href="/assets/css/style1.css">
     <style>
         body {
             background-color: #f8f9fa;
@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <nav>
                 <ol class="breadcrumb justify-content-center">
                     <li class="breadcrumb-item"><a href="dashadmin.php">Gestion des Étudiants</a></li>
-                    <li class="breadcrumb-item active">Ajouter un étudiant</li>
+                    <li class="breadcrumb-item active">Ajouter une Note</li>
                 </ol>
             </nav>
     </div>
@@ -214,14 +214,5 @@ document.getElementById('cours_id').addEventListener('change', function () {
     </script>
 </body>
 
-<!-- ======= Footer ======= -->
-<footer id="footer" class="footer">
-    <div class="copyright">
-        &copy; Copyright <strong><span>Keyce</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-        Designed by Groupe 7
-    </div>
-</footer><!-- End Footer -->
 
 </html>

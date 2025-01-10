@@ -72,22 +72,22 @@ $listerNotes = $noteManager->listerNotes();
             <nav>
                 <ol class="breadcrumb justify-content-center">
                     <li class="breadcrumb-item"><a href="dashadmin.php">Gestion des Étudiants</a></li>
-                    <li class="breadcrumb-item active">Liste des Cours</li>
+                    <li class="breadcrumb-item active">Liste des Notes</li>
                 </ol>
             </nav>
 
             <div class="row justify-content-center">
                 <div class="col-md-12">
                     <div class="card">
-                        <h1 class="text-center mb-4">Liste des Cours</h1>
+                        <h1 class="text-center mb-4">Liste des Notes</h1>
                         <section class="section">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="card">
                                         <div class="card-body">
-                                            <h5 class="card-title">Cours</h5>
-                                            <button onclick="window.location.href='ajouter_cours.php';" type="button" class="btn btn-outline-primary mb-3">
-                                                Nouveau Cours
+                                            <h5 class="card-title">Notes</h5>
+                                            <button onclick="window.location.href='ajouter_notes.php';" type="button" class="btn btn-outline-primary mb-3">
+                                                Nouvelle Note
                                             </button>
                                             <!-- Icône de recherche et champ de saisie -->
                                             <!-- Icône de recherche et champ de saisie -->
@@ -135,7 +135,7 @@ $listerNotes = $noteManager->listerNotes();
                                                                 <td><?= $note['annee_scolaire'] ?></td>
                                                                 <td><?= $note['created_at'] ?></td>
                                                                 <td>
-                                                                <a href="supprimer_note.php?id=<?= $note['id'] ?>" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette note ?');">Supprimer</a>
+                                                                    <a href="supprimer_note.php?id=<?= $note['id'] ?>" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette note ?');">Supprimer</a>
                                                                     <a href="ajouter_notes.php?id=<?= $note['id'] ?>" class="btn btn-primary">Modifier</a>
                                                                 </td>
                                                             </tr>
@@ -174,20 +174,15 @@ $listerNotes = $noteManager->listerNotes();
                                                 }
                                             }
                                         </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <script src="script.js"></script>
 
-
-                                        <!-- Footer -->
-                                        <footer id="footer" class="footer mt-4">
-                                            <div class="copyright text-center">
-                                                &copy; Copyright <strong><span>Keyce</span></strong>. All Rights Reserved
-                                            </div>
-                                            <div class="credits text-center">
-                                                Designed by Groupe 7
-                                            </div>
-                                        </footer>
-
-
-                                        <script src="script.js"></script>
 
 </body>
 

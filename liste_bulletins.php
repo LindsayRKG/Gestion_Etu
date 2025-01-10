@@ -77,7 +77,7 @@ $etudiants = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <nav>
                     <ol class="breadcrumb justify-content-center">
                         <li class="breadcrumb-item"><a href="dashadmin.php">Gestion des Étudiants</a></li>
-                        <li class="breadcrumb-item active">Liste des Cours</li>
+                        <li class="breadcrumb-item active">Generer les Bulletins</li>
                     </ol>
                 </nav>
 
@@ -91,8 +91,8 @@ $etudiants = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <div class="card">
                                             <div class="card-body">
                                                 <h5 class="card-title">Cours</h5>
-                                                <button onclick="window.location.href='ajouter_cours.php';" type="button" class="btn btn-outline-primary mb-3">
-                                                    Afficher
+                                                <button onclick="window.location.href='generer_bulletins.php';" type="button" class="btn btn-outline-primary mb-3">
+                                                    Afficher les bulletins
                                                 </button>
                                                 <!-- Icône de recherche et champ de saisie -->
 
@@ -114,6 +114,8 @@ $etudiants = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                 <ul>
                                                     <?php foreach ($etudiants as $etudiant): ?>
                                                         <?php
+
+                                                        
                                                         // Créer un objet Bulletin pour chaque étudiant
                                                         $bulletin = new Bulletin($db, $etudiant['id']);
 

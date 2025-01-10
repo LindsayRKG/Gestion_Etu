@@ -1,21 +1,30 @@
-
 <?php
 // Connexion à la base de données (modifiez avec vos informations de connexion)
-$pdo = new PDO('mysql:host=127.0.0.1;dbname=etudiants', 'root', 'Lyreb1234.');
+include_once 'Classes/Database.php';
+include_once 'Classes/Cours.php';
+include_once 'Classes/Notes.php';
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Connexion à la base de données
+$database = new Database();
+$db = $database->getConnection();
 
 // Récupérer le nombre total d'étudiants
 $query1 = "SELECT COUNT(*) AS total_etudiants FROM etudiants";
-$stmt1 = $pdo->query($query1);
+$stmt1 = $db->query($query1);
 $total_etudiants = $stmt1->fetch(PDO::FETCH_ASSOC)['total_etudiants'];
 
 // Récupérer le total des versements
 $query2 = "SELECT SUM(montant) AS total_versements FROM versements";
-$stmt2 = $pdo->query($query2);
+$stmt2 = $db->query($query2);
 $total_versements = $stmt2->fetch(PDO::FETCH_ASSOC)['total_versements'];
 
 // Récupérer le nombre d'étudiants ayant une mention "Assez Bien" et plus
 $query3 = "SELECT COUNT(*) AS total_mention_plus FROM bulletins WHERE mention IN ('Assez Bien', 'Bien', 'Excellent')";
-$stmt3 = $pdo->query($query3);
+$stmt3 = $db->query($query3);
 $total_mention_plus = $stmt3->fetch(PDO::FETCH_ASSOC)['total_mention_plus'];
 
 // Récupérer la moyenne générale des notes par classe
@@ -23,7 +32,7 @@ $query4 = "SELECT e.Niveau, AVG(b.moyenne) AS moyenne_classe
            FROM bulletins b
            JOIN etudiants e ON b.etudiant_id = e.id
            GROUP BY e.Niveau";
-$stmt4 = $pdo->query($query4);
+$stmt4 = $db->query($query4);
 $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
 
@@ -36,7 +45,7 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sidebar</title>
+  <title>Gestion des Etudiants</title>
   <link rel="stylesheet" href="/assets/css/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -55,7 +64,7 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
         </a>
       </li>
       <li>
-        <a href="Statistiques.php"><ion-icon name="pie-chart-outline"></ion-icon>
+        <a href="Statistiques.php" id="listStats"><ion-icon name="pie-chart-outline"></ion-icon>
           <p>Graphes</p>
         </a>
       </li>
@@ -89,7 +98,7 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
     <ul>
       <span>Gestion des Cours</span>
       <li class="">
-      <a href="ajouter_cours.php" id="addCoursLink"><ion-icon name="bag-add-outline"></ion-icon></ion-icon>
+        <a href="ajouter_cours.php" id="addCoursLink"><ion-icon name="bag-add-outline"></ion-icon></ion-icon>
           <p>Ajouter des Cours</p>
         </a>
       </li>
@@ -102,7 +111,7 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
     <ul>
       <span>Gestion des Notes</span>
       <li class="">
-      <a href="ajouter_notes.php" id="addNotesLink"><ion-icon name="bag-add-outline"></ion-icon></ion-icon>
+        <a href="ajouter_notes.php" id="addNotesLink"><ion-icon name="bag-add-outline"></ion-icon></ion-icon>
           <p>Ajouter des Notes</p>
         </a>
       </li>
@@ -120,7 +129,7 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
         </a>
       </li>
       <li>
-        <a href="liste_bulletins.php"id="listBullLink" ><ion-icon name="albums-outline"></ion-icon>
+        <a href="liste_bulletins.php" id="listBullLink"><ion-icon name="albums-outline"></ion-icon>
           <p>Lister les Bulletins</p>
         </a>
       </li>
@@ -165,39 +174,41 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
     <main class="main-content">
       <h2>BIENVENUE DANS LE GESTIONNAIRE DES ETUDIANTS DE KEYCE!</h2>
       <h2>Choisissez une action dans le menu</h2>
+
+      
       <!-- Section : Statistiques clés -->
 
-<section class="stats-section">
-    <h2>Statistiques clés</h2>
-    <div class="stats-cards">
-        <!-- Carte Étudiants -->
-        <div class="card">
+      <section class="stats-section">
+        <h2>Statistiques clés</h2>
+        <div class="stats-cards">
+          <!-- Carte Étudiants -->
+          <div class="card">
             <h3>Étudiants inscrits</h3>
             <p><span><?php echo $total_etudiants; ?></span></p>
-        </div>
-        <!-- Carte Versements -->
-        <div class="card">
+          </div>
+          <!-- Carte Versements -->
+          <div class="card">
             <h3>Total Versements</h3>
             <p><span><?php echo number_format($total_versements, 2, ',', ' ') . ' XAF'; ?></span></p>
-        </div>
-        <!-- Carte Mention -->
-        <div class="card">
+          </div>
+          <!-- Carte Mention -->
+          <div class="card">
             <h3>Nombres de mentions( Assez bien et plus) </h3>
             <p><span><?php echo number_format($total_mention_plus, 0, ',', ' '); ?></span></p>
-        </div>
-        <!-- Carte Moyenne Notes -->
-        <div class="card">
+          </div>
+          <!-- Carte Moyenne Notes -->
+          <div class="card">
             <h3>Moyenne générale des Notes par Classe</h3>
             <p><span>
                 <?php
                 foreach ($moyenne_par_classe as $niveau) {
-                    echo $niveau['Niveau'] . ': ' . number_format($niveau['moyenne_classe'], 2, ',', ' ') . '<br>';
+                  echo $niveau['Niveau'] . ': ' . number_format($niveau['moyenne_classe'], 2, ',', ' ') . '<br>';
                 }
                 ?>
-            </span></p>
+              </span></p>
+          </div>
         </div>
-    </div>
-</section>
+      </section>
 
 
       <!-- Section : Graphiques et Rapports -->
@@ -206,34 +217,49 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
         <div class="charts-container">
           <!-- Camembert -->
           <div class="chart">
-            <h3>Paiements</h3>
+            <h3>Taux de Solvabilite</h3>
             <canvas id="solvabiliteChart"></canvas>
           </div>
-          <!-- Histogramme Absences -->
+
+          <div class="chart">
+            <h3>Taux de Versements</h3>
+            <canvas id="versementsParJourChart"></canvas>
+          </div>
+
+          <!-- Histogramme Etud -->
           <div class="chart">
             <h3>Nombres d'etudiants</h3>
             <canvas id="etudiantsParNiveauChart"></canvas>
-          </div>
-          <!-- Courbe des Notes -->
-          <div class="chart">
+          
+
+            <!-- Courbe des Notes
+            <div class="chart">
             <h3>Mentions pas classe</h3>
             <canvas id="mentionsParNiveauChart"></canvas>
-          </div>
+          </div> -->
+
+      
+          <!-- Courbe des Notes -->
+          
           <!-- Classe avec le plus d’étudiants -->
-          <div class="chart">
+          
+          <!-- <div class="chart">
             <h3>Nombres de notes pas cours</h3>
             <canvas id="coursParNotesChart"></canvas>
-          </div>
+          </div> -->
+
+       
+ 
         </div>
-      </section>
-    </main>
+  </div>
+  </section>
+  </main>
   </div>
 
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <script src="script.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
   <script>
         // Fonction générique pour récupérer les données
         async function fetchData(statType) {
@@ -247,25 +273,20 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
         }
 
         // Fonction pour créer ou mettre à jour un graphique
-        function createOrUpdateChart(chartId, chartType, labels, data, backgroundColors) {
+        function createOrUpdateChart(chartId, chartType, labels, datasets) {
             const chartElement = document.getElementById(chartId);
             let chart = Chart.getChart(chartId);
 
             if (chart) {
                 chart.data.labels = labels;
-                chart.data.datasets[0].data = data;
-                chart.data.datasets[0].backgroundColor = backgroundColors;
+                chart.data.datasets = datasets;
                 chart.update();
             } else {
                 chart = new Chart(chartElement, {
                     type: chartType,
                     data: {
                         labels: labels,
-                        datasets: [{
-                            label: chartId,
-                            data: data,
-                            backgroundColor: backgroundColors
-                        }]
+                        datasets: datasets
                     }
                 });
             }
@@ -278,7 +299,6 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
                 const solvableCount = data.filter(d => d.categorie === 'Solvable').length;
                 const insolvableCount = data.filter(d => d.categorie === 'Insolvable').length;
                 const enCoursCount = data.filter(d => d.categorie === 'En Cours').length;
-                
 
                 const labels = ['Solvable', 'Insolvable', 'En Cours'];
                 const counts = [solvableCount, insolvableCount, enCoursCount];
@@ -290,25 +310,33 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
                     backgroundColor: backgroundColors
                 }];
 
-                createOrUpdateChart('solvabiliteChart', 'pie', labels, counts, backgroundColors);
+                createOrUpdateChart('solvabiliteChart', 'pie', labels, datasets);
             } catch (error) {
                 console.error('Erreur lors de la mise à jour du graphique de solvabilité:', error);
             }
         }
 
         // Étudiants par Niveau Chart
-        async function updateEtudiantsParNiveauChart() {
+              // Étudiants par Niveau Chart
+              async function updateEtudiantsParNiveauChart() {
             try {
                 const data = await fetchData('etudiants_par_niveau');
                 const labels = data.map(d => d.Niveau);
                 const nombreEtudiants = data.map(d => d.nombre_etudiants);
                 const backgroundColors = ['#FF6384', '#36A2EB', '#FFCE56'];
 
-                createOrUpdateChart('etudiantsParNiveauChart', 'bar', labels, nombreEtudiants, backgroundColors);
+                const datasets = [{
+                    label: 'Nombre d\'Étudiants',
+                    data: nombreEtudiants,
+                    backgroundColor: backgroundColors
+                }];
+
+                createOrUpdateChart('etudiantsParNiveauChart', 'bar', labels, datasets);
             } catch (error) {
                 console.error('Erreur lors de la mise à jour du graphique des étudiants par niveau:', error);
             }
         }
+
 
         // Mentions par Niveau Chart
         async function updateMentionsParNiveauChart() {
@@ -326,11 +354,7 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
                     backgroundColor: '#' + Math.floor(Math.random() * 16777215).toString(16)
                 }));
 
-                const labels = niveaux;
-                const dataArray = datasets.map(dataset => dataset.data);
-                const backgroundColors = datasets.map(dataset => dataset.backgroundColor);
-
-                createOrUpdateChart('mentionsParNiveauChart', 'bar', labels, dataArray, backgroundColors);
+                createOrUpdateChart('mentionsParNiveauChart', 'bar', niveaux, datasets);
             } catch (error) {
                 console.error('Erreur lors de la mise à jour du graphique des mentions par niveau:', error);
             }
@@ -344,9 +368,36 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
                 const nombreNotes = data.map(d => d.nombre_notes);
                 const backgroundColors = 'rgba(153, 102, 255, 0.6)';
 
-                createOrUpdateChart('coursParNotesChart', 'bar', labels, nombreNotes, backgroundColors);
+                const datasets = [{
+                    label: 'Nombre de Notes',
+                    data: nombreNotes,
+                    backgroundColor: backgroundColors
+                }];
+
+                createOrUpdateChart('coursParNotesChart', 'bar', labels, datasets);
             } catch (error) {
                 console.error('Erreur lors de la mise à jour du graphique des cours par notes:', error);
+            }
+        }
+
+        // Versements par Jour Chart
+        async function updateVersementsParJourChart() {
+            try {
+                const data = await fetchData('versements_par_jour');
+                console.log('Données des versements par jour:', data); // Ajoutez ce log pour vérifier les données
+                const labels = data.map(d => d.date);
+                const totalVersements = data.map(d => d.total_versements);
+                const backgroundColors = 'rgba(54, 162, 235, 0.6)';
+
+                const datasets = [{
+                    label: 'Total des Versements',
+                    data: totalVersements,
+                    backgroundColor: backgroundColors
+                }];
+
+                createOrUpdateChart('versementsParJourChart', 'bar', labels, datasets);
+            } catch (error) {
+                console.error('Erreur lors de la mise à jour du graphique des versements par jour:', error);
             }
         }
 
@@ -356,6 +407,7 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
             await updateEtudiantsParNiveauChart();
             await updateMentionsParNiveauChart();
             await updateCoursParNotesChart();
+            await updateVersementsParJourChart();
         }
 
         // Mettre à jour les graphiques toutes les 10 secondes
@@ -363,6 +415,22 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
         // Charger les graphiques initialement
         updateAllCharts();
+
+        // Fonction pour générer les bulletins et afficher le résultat
+        document.getElementById('addBullLink').addEventListener('click', async function(event) {
+            event.preventDefault();
+            try {
+                const response = await fetch('generer_bulletins.php');
+                if (!response.ok) {
+                    throw new Error(`Erreur de réseau: ${response.statusText}`);
+                }
+                const data = await response.text();
+                document.getElementById('bulletinsContent').innerHTML = data;
+                document.getElementById('bulletinsSection').style.display = 'block';
+            } catch (error) {
+                console.error('Erreur lors de la génération des bulletins:', error);
+            }
+        });
     </script>
   <footer id="footer" class="footer">
     <div class="copyright">

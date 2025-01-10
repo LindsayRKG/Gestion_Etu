@@ -97,6 +97,30 @@ GROUP BY
                 nombre_notes DESC
             LIMIT 10;
         ";
+
+        case 'versements_par_jour':
+            $query = "
+                SELECT
+                    DATE(v.date_versement) AS date,
+                    SUM(v.montant) AS total_versements
+                FROM
+                    versements v
+                GROUP BY
+                    DATE(v.date_versement);
+            ";
+            case 'tendance_versements':
+                $query = "
+                    SELECT
+                        DATE(v.date_versement) AS date,
+                        SUM(v.montant) AS total_versements
+                    FROM
+                        versements v
+                    GROUP BY
+                        DATE(v.date_versement)
+                    ORDER BY
+                        DATE(v.date_versement);
+                ";
+                break;
         break;
 
     default:

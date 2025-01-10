@@ -177,21 +177,67 @@ public function genererMatricule($Niveau)
     }
 
 
-    // Supprimer un étudiant
     public function supprimerEtudiant()
     {
-
-        // Supprimer les versements associés
-        $this->supprimerVersementsAssocies();
-
-        $sql = "DELETE FROM " . $this->table_name . " WHERE matricule = :matricule";
-        $stmt = $this->conn->prepare($sql);
-
-        // Liaison du paramètre
-        $stmt->bindParam(':matricule', $this->matricule);
-
-        return $stmt->execute();
+        try {
+            // Supprimer les versements associés
+            $this->supprimerVersementsAssocies();
+    
+            // Supprimer les bulletins associés
+            $this->supprimerBulletinsAssocies();
+    
+            // Supprimer l'étudiant
+            $sql = "DELETE FROM " . $this->table_name . " WHERE matricule = :matricule";
+            $stmt = $this->conn->prepare($sql);
+    
+            // Liaison du paramètre
+            $stmt->bindParam(':matricule', $this->matricule);
+    
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            echo "Erreur lors de la suppression de l'étudiant : " . $e->getMessage();
+            return false;
+        }
     }
+    
+    /**
+     * Supprimer les bulletins associés à l'étudiant.
+     */
+    private function supprimerBulletinsAssocies()
+    {
+        try {
+            $sql = "DELETE FROM bulletins WHERE etudiant_id = :etudiant_id";
+            $stmt = $this->conn->prepare($sql);
+    
+            // Récupérer l'ID de l'étudiant à partir du matricule
+            $etudiant_id = $this->getEtudiantId();
+            $stmt->bindParam(':etudiant_id', $etudiant_id);
+    
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo "Erreur lors de la suppression des bulletins associés : " . $e->getMessage();
+        }
+    }
+    
+    /**
+     * Récupérer l'ID de l'étudiant à partir du matricule.
+     */
+    private function getEtudiantId()
+    {
+        try {
+            $sql = "SELECT id FROM " . $this->table_name . " WHERE matricule = :matricule";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':matricule', $this->matricule);
+            $stmt->execute();
+    
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result['id'] ?? null;
+        } catch (PDOException $e) {
+            echo "Erreur lors de la récupération de l'ID de l'étudiant : " . $e->getMessage();
+            return null;
+        }
+    }
+    
 
     function genererRecuPDF($matricule, $nom, $prenom, $classe, $montantVerse, $resteAVerser, $dateVersement)
     {

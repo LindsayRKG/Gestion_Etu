@@ -82,7 +82,7 @@ if (isset($_GET['etudiant_id'])) {
             <nav>
                 <ol class="breadcrumb justify-content-center">
                     <li class="breadcrumb-item"><a href="dashadmin.php">Gestion des Étudiants</a></li>
-                    <li class="breadcrumb-item active">Liste des Cours</li>
+                    <li class="breadcrumb-item active">Generer les Bulletins</li>
                 </ol>
             </nav>
 
@@ -95,10 +95,7 @@ if (isset($_GET['etudiant_id'])) {
                                 <div class="col-lg-12">
                                     <div class="card">
                                         <div class="card-body">
-                                            <h5 class="card-title">Cours</h5>
-                                            <button onclick="window.location.href='ajouter_cours.php';" type="button" class="btn btn-outline-primary mb-3">
-                                                Afficher
-                                            </button>
+                                            
                                             <!-- Icône de recherche et champ de saisie -->
                                             
                                             <div class="row mb-3">

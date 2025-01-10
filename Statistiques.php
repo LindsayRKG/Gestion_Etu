@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,160 +13,63 @@
 </head>
 
 <body>
-  <!-- Barre latérale -->
-  <div class="sidebar">
-    <div class="profile">
-      <ion-icon name="person-outline"></ion-icon>
-    </div>
-    <ul>
-      <span>Statistiques</span>
-      <li>
-        <a href="dashadmin.php"><ion-icon name="home-outline"></ion-icon>
-          <p>Dashboard</p>
-        </a>
-      </li>
-      <li>
-        <a href="#"><ion-icon name="pie-chart-outline"></ion-icon>
-          <p>Graphes</p>
-        </a>
-      </li>
-    </ul>
-    <ul>
-      <span>Gestion des etudiants</span>
-      <li>
-        <a href="ajout_Etud.php" id="addStudentLink"><ion-icon name="person-add-outline"></ion-icon>
-          <p>Ajouter un Etudiant</p>
-        </a>
-      </li>
-      <li>
-        <a href="lister_et.php" id="listStudentsLink"><ion-icon name="list-outline"></ion-icon>
-          <p>Lister les Etudiants</p>
-        </a>
-      </li>
-    </ul>
-    <ul>
-      <span>Gestion des Versements</span>
-      <li class="">
-        <a href="versform.php" id="addVerstLink"><ion-icon name="bag-add-outline"></ion-icon></ion-icon>
-          <p>Ajouter un Versement</p>
-        </a>
-      </li>
-      <li>
-        <a href="lister_vers.php" id="listVerstLink"><ion-icon name="list-outline"></ion-icon>
-          <p>Lister les Versements</p>
-        </a>
-      </li>
-    </ul>
-    <ul>
-      <span>Gestion des Cours</span>
-      <li class="">
-      <a href="ajouter_cours.php" id="addCoursLink"><ion-icon name="bag-add-outline"></ion-icon></ion-icon>
-          <p>Ajouter des Cours</p>
-        </a>
-      </li>
-      <li>
-        <a href="liste_cours.php" id="listCoursLink"><ion-icon name="book-outline"></ion-icon>
-          <p>Lister les Cours</p>
-        </a>
-      </li>
-    </ul>
-    <ul>
-      <span>Gestion des Notes</span>
-      <li class="">
-      <a href="ajouter_notes.php" id="addNotesLink"><ion-icon name="bag-add-outline"></ion-icon></ion-icon>
-          <p>Ajouter des Notes</p>
-        </a>
-      </li>
-      <li>
-        <a href="liste_notes.php" id="ListNotesLink"><ion-icon name="book-outline"></ion-icon>
-          <p>Lister les Notes</p>
-        </a>
-      </li>
-    </ul>
-    <ul>
-      <span>Gestion des Bulletins</span>
-      <li>
-        <a href="#"><ion-icon name="albums-outline"></ion-icon>
-          <p>Lister les Bulletins</p>
-        </a>
-      </li>
-    </ul>
-    <ul>
-      <span>Custom</span>
-      <li class="switch-theme">
-        <a href="#"><ion-icon name="moon-outline"></ion-icon>
-          <p>Darkmode</p>
-          <button id="darkModeToggle">
-            <div class="circle"></div>
-          </button>
-        </a>
-      </li>
-      <li>
-        <a href="#"><ion-icon name="log-out-outline"></ion-icon>
-          <p>Logout</p>
-        </a>
-      </li>
-    </ul>
-  </div>
-
-  <!-- Contenu principal -->
-  <div class="main-content" id="mainContent">
-    <!-- Header -->
-    <header class="main-header">
-      <div class="logo">
-        <img src="images/logoK.ico" alt="Logo" />
-        <h1>Gestion des Étudiants</h1>
-      </div>
-      <div class="info">
-        <p>Date : <span id="currentDate"></span></p>
-      </div>
-      <div class="search-bar">
-        <form class="search-form d-flex align-items-center" method="POST" action="#">
-          <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-          <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-        </form>
-      </div>
-    </header>
 
     <main class="main-content">
-      <h2>BIENVENUE DANS LE GESTIONNAIRE DES ETUDIANTS DE KEYCE!</h2>
-      <h2>Choisissez une action dans le menu</h2>
-      <!-- Section : Statistiques clés -->
+      <h1>Statistiques </h1>
+
       <!-- Section : Graphiques et Rapports -->
-       <!-- Section : Graphiques et Rapports -->
-       <section class="charts-section">
-        <h2>Graphiques et Rapports</h2>
+      <section class="charts-section">
+        <h2>Graphiques</h2>
         <div class="charts-container">
           <!-- Camembert -->
           <div class="chart">
-            <h3>Paiements</h3>
+            <h3>Taux de Solvabilite</h3>
             <canvas id="solvabiliteChart"></canvas>
           </div>
-          <!-- Histogramme Absences -->
+
+          <div class="chart">
+            <h3>Taux de Versements</h3>
+            <canvas id="versementsParJourChart"></canvas>
+          </div>
+
+          <!-- Histogramme Etud -->
           <div class="chart">
             <h3>Nombres d'etudiants</h3>
             <canvas id="etudiantsParNiveauChart"></canvas>
           </div>
-          <!-- Courbe des Notes -->
-          <div class="chart">
-            <h3>Mentions pas classe</h3>
+
+            <!-- Courbe des Notes -->
+            <div class="chart">
+            <h3>Mentions par classe</h3>
             <canvas id="mentionsParNiveauChart"></canvas>
+          
+
+
+            <div class="chart">
+            <h3>Tenadance des Versements </h3>
+            <canvas id="tendanceVersementsChart"></canvas>
           </div>
-          <!-- Classe avec le plus d’étudiants -->
+
+      
+       
+          
           <div class="chart">
             <h3>Nombres de notes pas cours</h3>
             <canvas id="coursParNotesChart"></canvas>
           </div>
+
+       
+ 
         </div>
-      </section>
-    </main>
+  </div>
+  </section>
+  </main>
   </div>
 
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <script src="script.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
   <script>
         // Fonction générique pour récupérer les données
         async function fetchData(statType) {
@@ -179,25 +83,20 @@
         }
 
         // Fonction pour créer ou mettre à jour un graphique
-        function createOrUpdateChart(chartId, chartType, labels, data, backgroundColors) {
+        function createOrUpdateChart(chartId, chartType, labels, datasets) {
             const chartElement = document.getElementById(chartId);
             let chart = Chart.getChart(chartId);
 
             if (chart) {
                 chart.data.labels = labels;
-                chart.data.datasets[0].data = data;
-                chart.data.datasets[0].backgroundColor = backgroundColors;
+                chart.data.datasets = datasets;
                 chart.update();
             } else {
                 chart = new Chart(chartElement, {
                     type: chartType,
                     data: {
                         labels: labels,
-                        datasets: [{
-                            label: chartId,
-                            data: data,
-                            backgroundColor: backgroundColors
-                        }]
+                        datasets: datasets
                     }
                 });
             }
@@ -210,7 +109,6 @@
                 const solvableCount = data.filter(d => d.categorie === 'Solvable').length;
                 const insolvableCount = data.filter(d => d.categorie === 'Insolvable').length;
                 const enCoursCount = data.filter(d => d.categorie === 'En Cours').length;
-                
 
                 const labels = ['Solvable', 'Insolvable', 'En Cours'];
                 const counts = [solvableCount, insolvableCount, enCoursCount];
@@ -222,25 +120,33 @@
                     backgroundColor: backgroundColors
                 }];
 
-                createOrUpdateChart('solvabiliteChart', 'pie', labels, counts, backgroundColors);
+                createOrUpdateChart('solvabiliteChart', 'pie', labels, datasets);
             } catch (error) {
                 console.error('Erreur lors de la mise à jour du graphique de solvabilité:', error);
             }
         }
 
         // Étudiants par Niveau Chart
-        async function updateEtudiantsParNiveauChart() {
+              // Étudiants par Niveau Chart
+              async function updateEtudiantsParNiveauChart() {
             try {
                 const data = await fetchData('etudiants_par_niveau');
                 const labels = data.map(d => d.Niveau);
                 const nombreEtudiants = data.map(d => d.nombre_etudiants);
                 const backgroundColors = ['#FF6384', '#36A2EB', '#FFCE56'];
 
-                createOrUpdateChart('etudiantsParNiveauChart', 'bar', labels, nombreEtudiants, backgroundColors);
+                const datasets = [{
+                    label: 'Nombre d\'Étudiants',
+                    data: nombreEtudiants,
+                    backgroundColor: backgroundColors
+                }];
+
+                createOrUpdateChart('etudiantsParNiveauChart', 'bar', labels, datasets);
             } catch (error) {
                 console.error('Erreur lors de la mise à jour du graphique des étudiants par niveau:', error);
             }
         }
+
 
         // Mentions par Niveau Chart
         async function updateMentionsParNiveauChart() {
@@ -258,11 +164,7 @@
                     backgroundColor: '#' + Math.floor(Math.random() * 16777215).toString(16)
                 }));
 
-                const labels = niveaux;
-                const dataArray = datasets.map(dataset => dataset.data);
-                const backgroundColors = datasets.map(dataset => dataset.backgroundColor);
-
-                createOrUpdateChart('mentionsParNiveauChart', 'bar', labels, dataArray, backgroundColors);
+                createOrUpdateChart('mentionsParNiveauChart', 'bar', niveaux, datasets);
             } catch (error) {
                 console.error('Erreur lors de la mise à jour du graphique des mentions par niveau:', error);
             }
@@ -276,9 +178,93 @@
                 const nombreNotes = data.map(d => d.nombre_notes);
                 const backgroundColors = 'rgba(153, 102, 255, 0.6)';
 
-                createOrUpdateChart('coursParNotesChart', 'bar', labels, nombreNotes, backgroundColors);
+                const datasets = [{
+                    label: 'Nombre de Notes',
+                    data: nombreNotes,
+                    backgroundColor: backgroundColors
+                }];
+
+                createOrUpdateChart('coursParNotesChart', 'bar', labels, datasets);
             } catch (error) {
                 console.error('Erreur lors de la mise à jour du graphique des cours par notes:', error);
+            }
+        }
+
+        // Versements par Jour Chart
+        async function updateVersementsParJourChart() {
+            try {
+                const data = await fetchData('versements_par_jour');
+                console.log('Données des versements par jour:', data); // Ajoutez ce log pour vérifier les données
+                const labels = data.map(d => d.date);
+                const totalVersements = data.map(d => d.total_versements);
+                const backgroundColors = 'rgba(54, 162, 235, 0.6)';
+
+                const datasets = [{
+                    label: 'Total des Versements',
+                    data: totalVersements,
+                    backgroundColor: backgroundColors
+                }];
+
+                createOrUpdateChart('versementsParJourChart', 'bar', labels, datasets);
+            } catch (error) {
+                console.error('Erreur lors de la mise à jour du graphique des versements par jour:', error);
+            }
+        }
+
+        // Tendance des Versements par Jour Chart
+        async function updateTendanceVersementsChart() {
+            try {
+                const data = await fetchData('tendance_versements');
+                console.log('Données de la tendance des versements par jour:', data); // Ajoutez ce log pour vérifier les données
+                const labels = data.map(d => d.date);
+                const totalVersements = data.map(d => d.total_versements);
+                const backgroundColors = 'rgba(54, 162, 235, 0.6)';
+
+                const datasets = [{
+                    label: 'Tendance des Versements',
+                    data: totalVersements,
+                    backgroundColor: backgroundColors,
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    fill: false,
+                    tension: 0.4
+                }];
+
+                const options = {
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'day'
+                            },
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Total des Versements'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    }
+                };
+
+                createOrUpdateChart('tendanceVersementsChart', 'line', labels, datasets, options);
+            } catch (error) {
+                console.error('Erreur lors de la mise à jour du graphique de la tendance des versements par jour:', error);
             }
         }
 
@@ -288,6 +274,7 @@
             await updateEtudiantsParNiveauChart();
             await updateMentionsParNiveauChart();
             await updateCoursParNotesChart();
+            await updateTendanceVersementsChart();
         }
 
         // Mettre à jour les graphiques toutes les 10 secondes
@@ -295,15 +282,9 @@
 
         // Charger les graphiques initialement
         updateAllCharts();
+
     </script>
-  <footer id="footer" class="footer">
-    <div class="copyright">
-      &copy; Copyright <strong><span>Keyce</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-      Designed by Groupe 7
-    </div>
-  </footer>
+  
 </body>
 
 </html>

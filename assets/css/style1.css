@@ -1,0 +1,144 @@
+body {
+    
+    background-color: #f8f9fa;
+    font-family: 'Poppins',sans-serif;
+}
+
+.pagetitle {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.card {
+    border-radius: 45px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding: 90px;
+    margin-top: 20px;
+    max-width: 720px; /* Réduire la largeur du formulaire */
+    margin: auto; /* Centrer le formulaire */
+}
+
+.form-group label {
+    font-weight: bold;
+    color: #59595a;
+}
+
+.form-control {
+    border-radius: 10px;
+    border: 1px solid #ced4da;
+    background-color: #e9ecef;
+}
+
+.btn-primary {
+    background-color: #685cfe;
+    border-color: #6c757d;
+    border-radius: 10px;
+}
+
+.btn-primary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+/*Style de base de la sidebar
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px; /* Largeur par défaut */
+    /*height: 100%;
+    background-color: #333;
+    color: #fff;
+    overflow-y: auto; /* Ajoute un défilement si le contenu dépasse */
+   /* transition: transform 0.3s ease-in-out; /* Pour l'animation */
+  /*  z-index: 1000;
+}
+
+/* Style pour cacher la sidebar (utilisé pour les écrans étroits) */
+.sidebar.hidden {
+    transform: translateX(-100%);
+}
+
+/* Liens de la sidebar */
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 15px;
+    text-align: left;
+}
+
+.sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar ul li a ion-icon {
+    margin-right: 10px;
+}
+
+.sidebar {
+    width: 100px;
+    background-color: #fbfafc;
+    padding: 20px;
+    position: fixed;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    height: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    overflow: hidden;
+    transition: var(--main-transition);
+    z-index: 1000;
+    overflow-y: auto; /* Ajoute un défilement vertical si le contenu dépasse */
+    overflow-x: hidden; /* Évite le défilement horizontal */
+    padding: 15px; /* Ajoute un espace autour du contenu */
+    box-sizing: border-box; /* Inclut le padding dans la largeur/hauteur */
+     /* Met la sidebar au-dessus du contenu principal */
+  }
+  
+  
+  .sidebar::-webkit-scrollbar {
+    width: 8px; /* Largeur de la barre de défilement */
+  }
+  
+  .sidebar::-webkit-scrollbar-track {
+    background: #693a9c; /* Couleur de la piste */
+    border-radius: 5px;
+  }
+  
+  .sidebar::-webkit-scrollbar-thumb {
+    background: #1abc9c; /* Couleur de la barre */
+    border-radius: 5px; /* Coins arrondis */
+  }
+  
+  .sidebar::-webkit-scrollbar-thumb:hover {
+    background: #16a085; /* Couleur au survol */
+  }
+
+/* Responsive : Réduire la largeur pour les petits écrans */
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+}
+
+/* Adaptation pour ultra petits écrans */
+@media screen and (max-width: 480px) {
+    .sidebar {
+        width: 150px;
+    }
+
+    .sidebar ul li {
+        padding: 10px;
+    }
+
+    .sidebar ul li a {
+        font-size: 14px;
+    }
+}

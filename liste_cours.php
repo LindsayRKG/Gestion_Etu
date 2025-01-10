@@ -104,40 +104,41 @@ $listeCours = $cours->listerCours();
                                             </div>
 
 
-                                            <!-- Tableau des informations des étudiants -->
+
                                             <div class="table-responsive">
-                                                <table class="table table-bordered table-striped text-center">
-                                                    <a href="ajouter_cours.php">Ajouter un Nouveau Cours</a>
-                                                    <table class="table table-striped">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>#</th>
-                                                                <th>Nom du Cours</th>
-                                                                <th>Niveau</th>
-                                                                <th>Crédits</th>
-                                                                <th>Date de Création</th>
-                                                                <th>Date de Mise à Jour</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php if (count($listeCours) > 0) : ?>
-                                                                <?php foreach ($listeCours as $cours) : ?>
-                                                                    <tr>
-                                                                        <td><?= htmlspecialchars($cours['id']); ?></td>
-                                                                        <td><?= htmlspecialchars($cours['nom']); ?></td>
-                                                                        <td><?= htmlspecialchars($cours['niveau']); ?></td>
-                                                                        <td><?= htmlspecialchars($cours['credit']); ?></td>
-                                                                        <td><?= htmlspecialchars($cours['created_at']); ?></td>
-                                                                        <td><?= htmlspecialchars($cours['updated_at']); ?></td>
-                                                                    </tr>
-                                                                <?php endforeach; ?>
-                                                            <?php else : ?>
+
+                                                <a href="ajouter_cours.php">Ajouter un Nouveau Cours</a>
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Nom du Cours</th>
+                                                            <th>Niveau</th>
+                                                            <th>Crédits</th>
+                                                            <th>Date de Création</th>
+                                                            <th>Date de Mise à Jour</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php if (count($listeCours) > 0) : ?>
+                                                            <?php foreach ($listeCours as $cours) : ?>
                                                                 <tr>
-                                                                    <td colspan="6" class="text-center">Aucun cours trouvé.</td>
+                                                                    <td><?= htmlspecialchars($cours['id']); ?></td>
+                                                                    <td><?= htmlspecialchars($cours['nom']); ?></td>
+                                                                    <td><?= htmlspecialchars($cours['niveau']); ?></td>
+                                                                    <td><?= htmlspecialchars($cours['credit']); ?></td>
+                                                                    <td><?= htmlspecialchars($cours['created_at']); ?></td>
+                                                                    <td><?= htmlspecialchars($cours['updated_at']); ?></td>
                                                                 </tr>
-                                                            <?php endif; ?>
-                                                        </tbody>
-                                                    </table>
+                                                            <?php endforeach; ?>
+                                                        <?php else : ?>
+                                                            <tr>
+                                                                <td colspan="6" class="text-center">Aucun cours trouvé.</td>
+                                                            </tr>
+                                                        <?php endif; ?>
+                                                    </tbody>
+                                                </table>
+
                                             </div>
                                         </div>
                                         <script>
@@ -169,21 +170,23 @@ $listeCours = $cours->listerCours();
                                                 }
                                             }
                                         </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <script src="script.js"></script>
 
 
-                                        <!-- Footer -->
-                                        <footer id="footer" class="footer mt-4">
-                                            <div class="copyright text-center">
-                                                &copy; Copyright <strong><span>Keyce</span></strong>. All Rights Reserved
-                                            </div>
-                                            <div class="credits text-center">
-                                                Designed by Groupe 7
-                                            </div>
-                                        </footer>
 
 
-                                        <script src="script.js"></script>
+            <script src="script.js"></script>
 
+</body>
+
+</html>
 </body>
 
 </html>

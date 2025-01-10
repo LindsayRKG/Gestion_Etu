@@ -192,15 +192,7 @@ $versements = $manager->getAllVersements();
                                         </script>
 
 
-                                        <!-- Footer -->
-                                        <footer id="footer" class="footer mt-4">
-                                            <div class="copyright text-center">
-                                                &copy; Copyright <strong><span>Keyce</span></strong>. All Rights Reserved
-                                            </div>
-                                            <div class="credits text-center">
-                                                Designed by Groupe 7
-                                            </div>
-                                        </footer>
+                                  
 
 
                                         <script src="script.js"></script>

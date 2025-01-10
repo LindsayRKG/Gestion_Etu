@@ -1,5 +1,5 @@
 <?php
-include "connexion.php";
+include_once 'Classes/Database.php';
 
 // Exemple d'utilisation
 $database = new Database();

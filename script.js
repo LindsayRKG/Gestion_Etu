@@ -151,8 +151,48 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();  // Empêche le lien de recharger la page
         loadContent("liste_bulletins.php"); // Charge le contenu de "generer_bulletins.php" dans la zone "mainContent"
     });
+
+    
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+
+    const listStats = document.getElementById("listStats");
+    const mainContent = document.getElementById("mainContent");
+     // Vérifie si tous les éléments existent
+     if (!addBullLink || !mainContent) {
+        console.error("Un ou plusieurs éléments nécessaires ne sont pas trouvés dans le DOM.");
+        return;
+    }
+    
+    console.log("Tous les éléments sont correctement trouvés.");
+    
+    // Fonction pour charger du contenu via AJAX
+    function loadContent(url) {
+        console.log("Chargement de la page : " + url); // Vérifiez l'URL
+        fetch(url)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`Erreur HTTP : ${response.status}`); // Capture l'erreur HTTP
+                }
+                return response.text();
+            })
+            .then((html) => {
+                console.log("Contenu chargé : ", html); // Vérifiez le contenu récupéré
+                mainContent.innerHTML = html; // Injecte le contenu dans l'élément mainContent
+            })
+            .catch((error) => {
+                console.error("Erreur lors du chargement :", error); // Affiche l'erreur dans la console
+                mainContent.innerHTML = `<p>Une erreur est survenue lors du chargement de la page.</p>`; // Affiche un message d'erreur dans mainContent
+            });
+    }
+    
+    listStats.addEventListener("click", (e) => {
+        e.preventDefault();  // Empêche le lien de recharger la page
+        loadContent("Statistiques.php"); // Charge le contenu de "generer_bulletins.php" dans la zone "mainContent"
+    });
+});
+    
 
 function searchTable() {
     var input, filter, table, tr, td, i, j, txtValue;

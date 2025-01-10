@@ -82,6 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulaire de Versement</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style1.css">
 
     <style>
         body {
@@ -202,15 +203,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </body>
 
-<!-- ======= Footer ======= -->
-<footer id="footer" class="footer">
-    <div class="copyright">
-        &copy; Copyright <strong><span>Keyce</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
 
-        Designed by Groupe 7
-    </div>
-</footer><!-- End Footer -->
 
 </html>
