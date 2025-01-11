@@ -313,7 +313,7 @@ public function genererMatricule($Niveau)
 
     
         $pdf->SetXY(20, 5);
-        $pdf->Cell(60, 5, 'MINISTERE DES ENSEIGNEMENTS SUPERIEURS ', 0, 1, 'L');
+        $pdf->Cell(60, 5, 'MINISTERE DE L\' ENSEIGNEMENT SUPERIEURS ', 0, 1, 'L');
         $pdf->SetX(20);
         $pdf->Cell(60, 5, 'DU CAMEROUN', 0, 1, 'L');
     
