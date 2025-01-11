@@ -144,12 +144,10 @@ $versements = $manager->getAllVersements();
                                                                     <td><?= htmlspecialchars($versement['montant']); ?></td>
 
                                                                     <td>
-                                                                        <!-- Bouton Modifier -->
-                                                                        <a href="modifer_versement.php?matricule=<?= $etudiant['matricule']; ?>" class="btn btn-primary">Modifier</a>
+               <a href="modifer_versement.php?matricule=<?= htmlspecialchars($versement['matricule_etudiant']); ?>" class="btn btn-primary">Modifier</a>
 
-                                                                        <a href="supprimer_versement.php?matricule=<?= $etudiant['matricule']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce versement ?');">Supprimer</a>
-
-                                                                    </td>
+               <a href="supprimer_versement.php?matricule=<?= htmlspecialchars($versement['matricule_etudiant']); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce versement ?');">Supprimer</a>
+                </td>
                                                                 </tr>
                                                             <?php endforeach; ?>
                                                         <?php else: ?>

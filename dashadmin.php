@@ -46,7 +46,7 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gestion des Etudiants</title>
-  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
@@ -163,12 +163,12 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
       <div class="info">
         <p>Date : <span id="currentDate"></span></p>
       </div>
-      <div class="search-bar">
+      <!-- <div class="search-bar">
         <form class="search-form d-flex align-items-center" method="POST" action="#">
           <input type="text" name="query" placeholder="Search" title="Enter search keyword">
           <button type="submit" title="Search"><i class="bi bi-search"></i></button>
         </form>
-      </div>
+      </div> -->
     </header>
 
     <main class="main-content">
