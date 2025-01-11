@@ -145,7 +145,7 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
         </a>
       </li>
       <li>
-        <a href="#"><ion-icon name="log-out-outline"></ion-icon>
+        <a href="logout.php"><ion-icon name="log-out-outline"></ion-icon>
           <p>Logout</p>
         </a>
       </li>
