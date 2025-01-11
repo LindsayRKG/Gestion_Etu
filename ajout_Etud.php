@@ -3,9 +3,6 @@
 include_once 'Classes/Database.php';
 include_once 'Classes/Etudiant.php';
 
-
-
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -66,10 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo "Chemin du fichier cible : " . $target_file;
     echo "Chemin du fichier temporaire : " . $_FILES['image']['tmp_name'];
 
-
-
-
-
     // Après avoir ajouté l'étudiant dans la base de données
     if ($etudiant->ajouterEtudiant()) {
         // Générer la carte étudiant et récupérer son chemin
@@ -91,9 +84,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Envoyer l'email
         if ($etudiant->envoyerEmail($emailDestinataire, $sujet, $message, $fichierJoint)) {
-            echo "L'email a été envoyé avec succès à $emailDestinataire.";
+            echo "<script>
+                    alert('L\'email a été envoyé avec succès à $emailDestinataire.');
+                    window.location.href = 'dashadmin.php';
+                  </script>";
         } else {
-            echo "Erreur lors de l'envoi de l'email.";
+            echo "<script>alert('Erreur lors de l\'envoi de l\'email.');</script>";
         }
     }
 
