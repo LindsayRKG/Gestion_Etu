@@ -52,8 +52,8 @@
 
         form {
             background: #fff;
-            padding: 30px;
-            border-radius: 10px;
+            padding: 63px;
+            border-radius: 37px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
@@ -61,7 +61,7 @@
             font-size: 24px;
             color: #333;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 49px;
         }
 
         .input-box {
@@ -73,7 +73,7 @@
             width: 100%;
             padding: 10px 40px;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 24px;
             outline: none;
             font-size: 16px;
             color: #333;
@@ -92,7 +92,7 @@
             width: 100%;
             padding: 10px;
             border: none;
-            border-radius: 5px;
+            border-radius: 38px;
             background-color: #685cfe;
             color: white;
             font-size: 16px;

@@ -341,9 +341,9 @@ body {
 }
 
 .main-header .logo img {
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
+  height: 68px;
+  width: 72px;
+  border-radius: 28%;
 }
 
 .main-header .info {
