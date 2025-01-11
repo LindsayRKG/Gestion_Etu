@@ -19,3 +19,7 @@
  - vous dans le terminal de vscode  on tape la commande 'git clone https://github.com/LindsayRKG/Gestion_Etu'
 
  - Pour récupérer les dernières modifications en ligne on tape "git pull"
+ - Vérifiez les données récupérées :
+
+-Assurez-vous que les fonctions fetchData récupèrent correctement les données depuis get_stats.php.
+Important dans le cas ou vous voulez que les graphes s'affichent
