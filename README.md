@@ -24,3 +24,4 @@
 -Assurez-vous que les fonctions fetchData récupèrent correctement les données depuis get_stats.php.
 Important dans le cas ou vous voulez que les graphes s'affichent
 -lorsque vous  essayez de supprimer un étudiant la sidebar disparait et vous etes obligé de jongler pour revenir
+-modifier les versements va faire une erreur qui dit que le fichier modifier-versement.php n'existe pas
