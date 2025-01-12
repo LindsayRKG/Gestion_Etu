@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard de l'etudiant</title>
-  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
@@ -19,7 +19,7 @@
     <li><a href="etudiant_profil.php"><ion-icon name="person-outline"></ion-icon> Profil</a></li>
     <li><a href="etudiant_versements.php"><ion-icon name="cash-outline"></ion-icon> Versements</a></li>
     <li><a href="etudiant_notes.php"><ion-icon name="school-outline"></ion-icon> Notes</a></li>
-    <li><a href="etudiant_bulletin.php"><ion-icon name="document-outline"></ion-icon> Bulletin</a></li>
+    <!-- <li><a href="etudiant_bulletin.php"><ion-icon name="document-outline"></ion-icon> Bulletin</a></li> -->
   </ul>
 </div>
 

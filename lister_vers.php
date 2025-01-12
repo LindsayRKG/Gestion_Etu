@@ -82,7 +82,7 @@ $versements = $manager->getAllVersements();
 <body>
     <div class="pagetitle">
         <nav>
-            <h1>Gestion des Étudiants</h1>
+            <h1>Gestion des Versements</h1>
             <nav>
                 <ol class="breadcrumb justify-content-center">
                     <li class="breadcrumb-item"><a href="dashadmin.php">Gestion des Étudiants</a></li>
@@ -143,8 +143,8 @@ $versements = $manager->getAllVersements();
                                                                     <td><?= htmlspecialchars($versement['prenom']); ?></td>
                                                                     <td><?= htmlspecialchars($versement['montant']); ?></td>
 
-                                                                    <td>
-               <a href="modifer_versement.php?matricule=<?= htmlspecialchars($versement['matricule_etudiant']); ?>" class="btn btn-primary">Modifier</a>
+                                                                   <td>
+               <a href="modifer_vers.php?matricule=<?= htmlspecialchars($versement['matricule_etudiant']); ?>" class="btn btn-primary">Modifier</a>
 
                <a href="supprimer_versement.php?matricule=<?= htmlspecialchars($versement['matricule_etudiant']); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce versement ?');">Supprimer</a>
                 </td>
