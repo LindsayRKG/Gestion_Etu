@@ -71,52 +71,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Modifier un étudiant</title>
 
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/style1.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .container {
-            max-width: 800px;
-
-            /* Largeur maximale du formulaire */
-        }
-
-        .card {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border: none;
-        }
-
-        .pagetitle h1 {
-            text-align: center;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
-        .form-container {
-            margin-top: 4px;
-            margin-bottom: 50px;
-            width: 500px !important;
-            /* Priorité sur les styles Bootstrap */
-            margin: 50px auto !important;
-        }
-
-        .form-container .card {
-            padding: 10px;
-
-        }
-
-        .btn-primary {
-            background: #685cfe;
-            border: none;
-            transition: background 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            background-color: #685cfe;
-        }
-    </style>
+    <link rel="stylesheet" href="assets/css/style1.css">
+    
+ 
 </head>
 
 <body>
@@ -185,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label for="annee_scolaire">Année Scolaire :</label>
                         <input type="text" id="annee_scolaire" name="annee_scolaire" class="form-control" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    <button type="submit" class="btn btn-primary">Ajouter la Note</button>
                 </form>
             </div>
 

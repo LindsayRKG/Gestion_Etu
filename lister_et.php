@@ -56,6 +56,7 @@ $etudiants = $etudiant->getListeEtudiants();
     <title>Liste des Étudiants</title>
 
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         body {
             background-color: #f8f9fa;
@@ -87,6 +88,21 @@ $etudiants = $etudiant->getListeEtudiants();
             /* Couleur de fond verte */
             color: white;
             /* Couleur du texte blanche */
+        }
+
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0px;
+            overflow-wrap: break-word;
+            background-color: rgb(255, 255, 255);
+            background-clip: border-box;
+            border-width: 1px;
+            border-style: solid;
+            border-color: rgba(0, 0, 0, 0.125);
+            border-image: initial;
+            border-radius: 4.25rem;
         }
     </style>
 </head>
@@ -121,19 +137,19 @@ $etudiants = $etudiant->getListeEtudiants();
                                             <!-- Icone de recherche-->
                                             <div class="table-responsive">
                                                 <table class="table table-bordered table-striped text-center">
-                                                <div class="row mb-3">
-                                                <div class="col-md-4 offset-md-8">
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control" id="searchInput" placeholder="Rechercher..." onkeyup="searchTable()">
-                                                        <div class="input-group-append">
-                                                            <span class="input-group-text">
-                                                                <i class="fa fa-search"></i> <!-- Icône de recherche -->
-                                                            </span>
+                                                    <div class="row mb-3">
+                                                        <div class="col-md-4 offset-md-8">
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" id="searchInput" placeholder="Rechercher..." onkeyup="searchTable()">
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text">
+                                                                        <i class="fa fa-search"></i> <!-- Icône de recherche -->
+                                                                    </span>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <!-- Tableau des informations des étudiants -->
+                                                    <!-- Tableau des informations des étudiants -->
                                                     <thead class="custom-header">
                                                         <tr>
                                                             <th>Image</th>
@@ -206,7 +222,7 @@ $etudiants = $etudiant->getListeEtudiants();
             </div>
 
 
-   
+
 
             <script>
                 function searchTable() {

@@ -1,24 +1,57 @@
+<?php
+session_start();
 
+require_once 'Classes/Database.php';
+require_once 'Classes/Etudiant.php';
 
+$database = new Database();
+$db = $database->getConnection();
+
+$etudiant = new Etudiant($db);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $matricule = $_POST['username'];
+    $password = $_POST['password'];
+
+    if ($etudiant->login($matricule, $password)) {
+        $_SESSION['student_id'] = $etudiant->id;
+
+        // if (!$etudiant->password_changed) {
+        //     header('Location: change_password.php');
+        // } else {
+        header('Location: dashEtud.php');
+    }
+    exit();
+} else {
+    $error = "Matricule ou mot de passe incorrect.";
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>login</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     
+   
+    <link rel="stylesheet" href="assets/css/style1.css">
+
     <style>
-    body {
-            background-color: #f8f9fa;
+        body {
+            
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            font-family: Arial, sans-serif;
-        }
+            
+    
+    background-color: #f8f9fa;
+    font-family: 'Poppins',sans-serif;
+}
+      
 
         .wrapper {
             width: 100%;
@@ -51,6 +84,7 @@
         }
 
         form {
+<<<<<<< HEAD
             background: #fff;
             padding: 63px;
             border-radius: 37px;
@@ -62,6 +96,22 @@
             color: #333;
             text-align: center;
             margin-bottom: 49px;
+=======
+            border-radius: 45px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ebe7e5;
+    padding: 90px;
+    margin-top: 20px;
+    max-width: 720px; /* Réduire la largeur du formulaire */
+    margin: auto; /* Centrer le formulaire */
+    
+        }
+
+        h1 {
+            font-weight: bold;
+            color: #59595a;    font-weight: bold;
+            color: #59595a;
+>>>>>>> fa22d55 (derniere (presque) version)
         }
 
         .input-box {
@@ -121,6 +171,7 @@
     </style>
 </head>
 </head>
+
 <body>
     <div class="wrapper">
         <form action="recuperation.php" method="post" id="connexion">
@@ -140,29 +191,35 @@
             </div>
             <button type="submit" class="btn">Connexion</button>
 
-           
+
         </form>
-   
 
 
-    
-        <form action="connectetd.php" method="post" id="formulaire_enregistrement">
-            <h1>Connexion Etudiant</h1>
+
+
+        <form method="POST" action="" id="formulaire_enregistrement">
+
+            <h2>Connexion Étudiant</h2>
+
             <div class="input-box">
-                <input type="text" name="matricule" id="matricule" placeholder="Nom utilisateur" required>
+                <label>Nom d'utilisateur (Matricule) :</label>
                 <i class="bx bxs-user"></i>
             </div>
-
             <div class="input-box">
-                <input type="password" name="pass" id="pass" placeholder="Mot de Passe" required>
+                <input type="text" name="username" required>
                 <i class="bx bxs-lock-alt"></i>
             </div>
 
-           
-            <button type="submit" name="submit" class="btn">Connexion</button>
+            <div class="register-link">
+                <label>Mot de passe :</label>
+            </div>
+
+            <input type="password" name="password" required>
+            <button type="submit">Se connecter</button>
+
 
             <div class="register-link">
-                <p><a href="#" id="btn_login_form" >Se conneter en tant que admin</a></p>
+                <p><a href="#" id="btn_login_form">Se conneter en tant que admin</a></p>
             </div>
         </form>
     </div>
@@ -187,19 +244,18 @@
 <script src="plugins/jquery.min.js"></script>
 
 <script type="text/javascript">
-$(document).ready(function(e){
-$("#formulaire_enregistrement").hide();
-$("#btn_formulaire_form").click(function(){
-$("#connexion").hide();
-$("#formulaire_enregistrement").show();
-});
+    $(document).ready(function(e) {
+        $("#formulaire_enregistrement").hide();
+        $("#btn_formulaire_form").click(function() {
+            $("#connexion").hide();
+            $("#formulaire_enregistrement").show();
+        });
 
-$("#btn_login_form").click(function(){
-$("#connexion").show();
-$("#formulaire_enregistrement").hide();
-});
-});
-
+        $("#btn_login_form").click(function() {
+            $("#connexion").show();
+            $("#formulaire_enregistrement").hide();
+        });
+    });
 </script>
 
 </html>

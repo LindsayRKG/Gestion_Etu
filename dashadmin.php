@@ -48,6 +48,10 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
   <title>Gestion des Etudiants</title>
   <link rel="stylesheet" href="assets/css/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    
+  </style>
+
 </head>
 
 <body>
@@ -90,7 +94,7 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
         </a>
       </li>
       <li>
-        <a href="lister_vers.php" id="listVerstLink"><ion-icon name="list-outline"></ion-icon>
+        <a href="lister_vers.php" id="listVerstLink"><ion-icon name="cash-outline"></ion-icon>
           <p>Lister les Versements</p>
         </a>
       </li>
@@ -157,18 +161,22 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
     <!-- Header -->
     <header class="main-header">
       <div class="logo">
-        <img src="images/logoK.ico" alt="Logo" />
+        <img src="images/logoK2.png" alt="Logo" />
         <h1>Gestion des Étudiants</h1>
       </div>
       <div class="info">
         <p>Date : <span id="currentDate"></span></p>
       </div>
+<<<<<<< HEAD
       <!-- <div class="search-bar">
         <form class="search-form d-flex align-items-center" method="POST" action="#">
           <input type="text" name="query" placeholder="Search" title="Enter search keyword">
           <button type="submit" title="Search"><i class="bi bi-search"></i></button>
         </form>
       </div> -->
+=======
+     
+>>>>>>> fa22d55 (derniere (presque) version)
     </header>
 
     <main class="main-content">
@@ -416,21 +424,7 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
         // Charger les graphiques initialement
         updateAllCharts();
 
-        // Fonction pour générer les bulletins et afficher le résultat
-        document.getElementById('addBullLink').addEventListener('click', async function(event) {
-            event.preventDefault();
-            try {
-                const response = await fetch('generer_bulletins.php');
-                if (!response.ok) {
-                    throw new Error(`Erreur de réseau: ${response.statusText}`);
-                }
-                const data = await response.text();
-                document.getElementById('bulletinsContent').innerHTML = data;
-                document.getElementById('bulletinsSection').style.display = 'block';
-            } catch (error) {
-                console.error('Erreur lors de la génération des bulletins:', error);
-            }
-        });
+      
     </script>
   <footer id="footer" class="footer">
     <div class="copyright">

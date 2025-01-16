@@ -28,6 +28,7 @@ class Etudiant
 
 
 
+    public $id;
     public $matricule;
     public $nom;
     public $prenom;
@@ -42,12 +43,150 @@ class Etudiant
     public $solde;
     public $total;
     public $image;
+    public $password_changed;
 
-    public function _construct($db)
-    {
-        $this->conn = $db;
+
+    public function login($matricule, $password) {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE matricule = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(1, $matricule, PDO::PARAM_STR);
+        $stmt->execute();
+    
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        if ($result) {
+            // Afficher les données récupérées pour déboguer
+            echo "<pre>Données récupérées de la base : " . print_r($result, true) . "</pre>";
+    
+            // Comparer le mot de passe
+            if ($password === $result['pass']) {
+                // Assigner les données à l'objet
+                $this->id = $result['id'];
+                $this->matricule = $result['matricule'];
+                $this->password_changed = $result['password_changed'] ?? 0;
+                return true; // Connexion réussie
+            } else {
+                echo "Mot de passe incorrect.";
+            }
+        } else {
+            echo "Aucun utilisateur trouvé avec ce matricule.";
+        }
+    
+        return false; // Échec de la connexion
     }
 
+
+
+// Méthode pour mettre à jour le mot de passe
+public function updatePassword() {
+    try {
+        $query = "UPDATE " . $this->table_name . " SET pass = :new_pass WHERE matricule = :matricule";
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(":matricule", $this->matricule);
+        $stmt->bindParam(":new_pass", $this->pass);
+
+        return $stmt->execute();
+    } catch (PDOException $e) {
+        echo "Erreur : " . $e->getMessage();
+        return false;
+    }
+}
+
+// Récupérer les informations de l'étudiant par son matricule
+public function getStudentByMatricule() {
+    $stmt = $this->conn->prepare("SELECT * FROM ". $this->table_name . " WHERE matricule = :matricule");
+    $stmt->bindParam(':matricule', $this->matricule);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+public function getStudentById() {
+    $query = "SELECT * FROM etudiants WHERE id = :id LIMIT 1"; // Remplacez `matricule` par `id`
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':id', $this->id); // Utilisez l'ID au lieu du matricule
+    $stmt->execute();
+    
+    if ($stmt->rowCount() > 0) {
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
+    return false;
+}
+
+
+
+    // Récupérer les versements de l'étudiant
+    public function getVersements() {
+        // Requête SQL pour récupérer les versements de l'étudiant en utilisant 'etudiant_id'
+        $stmt = $this->conn->prepare("SELECT * FROM versements WHERE etudiant_id = :etudiant_id");
+        $stmt->bindParam(':etudiant_id', $this->id); // L'ID de l'étudiant
+        $stmt->execute();
+        
+        // Retourne les résultats sous forme de tableau associatif
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public function getNotes() {
+        $query = "
+            SELECT n.valeur, c.nom AS cours, n.type_note 
+            FROM notes n
+            JOIN cours c ON n.cours_id = c.id
+            WHERE n.etudiant_id = :etudiant_id";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':etudiant_id', $this->id);
+        $stmt->execute();
+        
+        $notes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+        // Vérification des données récupérées
+        // if (empty($notes)) {
+        //     echo "Aucune note trouvée pour cet étudiant.";
+        // } else {
+        //     echo "Notes trouvées: " . count($notes);  // Affiche le nombre de notes récupérées
+        // }
+    
+        return $notes;
+    }
+
+
+    // Récupérer le bulletin de l'étudiant avec son rang et GPA
+    public function getBulletin() {
+        $query = "SELECT * FROM bulletins WHERE etudiant_id = :etudiant_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute(['etudiant_id' => $this->id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
+    // Récupérer l'image de l'étudiant (photo de profil)
+    public function getPhoto() {
+        return $this->image;
+    }
+
+
+
+    // Modifier les informations de l'étudiant
+    public function updateStudentInfo($email, $solde, $nomPrt, $emailPrt) {
+        $stmt = $this->conn->prepare("
+            UPDATE etudiants SET email = :email, solde = :solde, nomPrt = :nomPrt, emailPrt = :emailPrt 
+            WHERE matricule = :matricule
+        ");
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':solde', $solde);
+        $stmt->bindParam(':nomPrt', $nomPrt);
+        $stmt->bindParam(':emailPrt', $emailPrt);
+        $stmt->bindParam(':matricule', $this->matricule);
+        return $stmt->execute();
+    }
+
+    // Ajouter un versement pour l'étudiant
+    public function addVersement($montant) {
+        $stmt = $this->conn->prepare("INSERT INTO versements (matricule_etudiant, montant) VALUES (:matricule_etudiant, :montant)");
+        $stmt->bindParam(':matricule_etudiant', $this->matricule);
+        $stmt->bindParam(':montant', $montant);
+        return $stmt->execute();
+    }
+    
     public function ajouterEtudiant()
     {
         try {
@@ -57,32 +196,40 @@ class Etudiant
                       VALUES 
                       (:matricule, :nom, :prenom, :dateNaiss, :Niveau, :Email, :statut, :dateIns, 
                        :nomPrt, :emailPrt, :pass, :solde, :total, :image)";
-
-            $stmt = $this->conn->prepare($query);
-
+    
+            $stmt1 = $this->conn->prepare($query);
+    
             // Liaison des paramètres
-            $stmt->bindParam(":matricule", $this->matricule);
-            $stmt->bindParam(":nom", $this->nom);
-            $stmt->bindParam(":prenom", $this->prenom);
-            $stmt->bindParam(":dateNaiss", $this->dateNaiss);
-            $stmt->bindParam(":Niveau", $this->niveau);
-            $stmt->bindParam(":Email", $this->email);
-            $stmt->bindParam(":statut", $this->statut);
-            $stmt->bindParam(":dateIns", $this->dateIns);
-            $stmt->bindParam(":nomPrt", $this->nomPrt);
-            $stmt->bindParam(":emailPrt", $this->emailPrt);
-            $stmt->bindParam(":pass", $this->matricule);
-            $stmt->bindParam(":solde", $this->solde);
-            $stmt->bindParam(":total", $this->total);
-            $stmt->bindParam(":image", $this->image);
-
-            return $stmt->execute();
+            $stmt1->bindParam(":matricule", $this->matricule);
+            $stmt1->bindParam(":nom", $this->nom);
+            $stmt1->bindParam(":prenom", $this->prenom);
+            $stmt1->bindParam(":dateNaiss", $this->dateNaiss);
+            $stmt1->bindParam(":Niveau", $this->niveau);
+            $stmt1->bindParam(":Email", $this->email);
+            $stmt1->bindParam(":statut", $this->statut);
+            $stmt1->bindParam(":dateIns", $this->dateIns);
+            $stmt1->bindParam(":nomPrt", $this->nomPrt);
+            $stmt1->bindParam(":emailPrt", $this->emailPrt);
+            $stmt1->bindParam(":pass", $this->matricule);
+            $stmt1->bindParam(":solde", $this->solde);
+            $stmt1->bindParam(":total", $this->total);
+            $stmt1->bindParam(":image", $this->image);
+            $stmt1->execute();
+    
+            // Insérer les informations de connexion dans la table `user`
+            $query_user = "INSERT INTO user (nom, pass, password_changed) VALUES (:nom, :pass, 0)";
+            $stmt2 = $this->conn->prepare($query_user);
+            $stmt2->bindValue(':nom', $this->matricule, PDO::PARAM_STR);
+            $stmt2->bindValue(':pass', password_hash($this->matricule, PASSWORD_BCRYPT), PDO::PARAM_STR);
+            $stmt2->execute();
+    
+            return true;
         } catch (PDOException $e) {
             echo "Erreur : " . $e->getMessage();
             return false;
         }
     }
-
+    
 
 
     // Méthode pour récupérer la liste des étudiants
@@ -298,58 +445,67 @@ public function genererMatricule($Niveau)
         }
     
         // Initialisation de FPDF
-        $pdf = new FPDF('L', 'mm', array(85, 54)); // Format carte (taille approximative)
+        $pdf = new FPDF('L', 'mm', array(100, 70)); // Format carte (taille approximative)
         $pdf->AddPage();
         $pdf->SetFont('Arial', '', 10);
     
-        // Ajout d'un fond bleu clair et des lignes graphiques
+        // Ajout d'un fond bleu clair sur toute la carte
         $pdf->SetFillColor(240, 248, 255); // Couleur bleu clair
-        $pdf->Rect(0, 0, 85, 54, 'F'); // Rectangle plein pour l'arrière-plan
+        $pdf->Rect(0, 0, 100, 70, 'F'); // Rectangle plein pour l'arrière-plan
     
         // Ajout du logo ou des informations fixes
         $pdf->SetFont('Arial', 'B', 8);
         $pdf->SetTextColor(0, 0, 128); // Couleur texte (bleu foncé)
         $pdf->Image('images/logoK.png', 5, 5, 15); // Exemple avec un chemin relatif valide
-
     
+<<<<<<< HEAD
         $pdf->SetXY(20, 5);
         $pdf->Cell(60, 5, 'MINISTERE DE L\' ENSEIGNEMENT SUPERIEURS ', 0, 1, 'L');
         $pdf->SetX(20);
         $pdf->Cell(60, 5, 'DU CAMEROUN', 0, 1, 'L');
+=======
+        $pdf->SetXY(25, 5);
+        $pdf->Cell(70, 5, 'MINISTERE DES ENSEIGNEMENTS', 0, 1, 'C');
+        $pdf->SetX(25);
+        $pdf->Cell(70, 5, 'SUPERIEURS', 0, 1, 'C');
+>>>>>>> fa22d55 (derniere (presque) version)
     
         // Titre principal
-        $pdf->SetFont('Arial', 'B', 14);
+        $pdf->SetFont('Arial', 'B', 12);
         $pdf->SetTextColor(0, 0, 0); // Noir
-        $pdf->SetXY(3, 20);
-        $pdf->Cell(80, 7, mb_convert_encoding('Carte d\'étudiant de Keyce', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
+        $pdf->SetXY(5, 15);
+        $pdf->Cell(90, 7, mb_convert_encoding('Carte d\'étudiant De Keyce', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
     
         // Informations de l'étudiant
         $pdf->SetFont('Arial', '', 10);
-        $pdf->SetXY(5, 30);
-        $pdf->Cell(30, 5, 'Nom :', 0, 0);
-        $pdf->Cell(50, 5, mb_convert_encoding($this->nom, 'ISO-8859-1', 'UTF-8'), 0, 1);
+        $pdf->SetXY(10, 25);
+        $pdf->Cell(30, 5, 'Nom :', 0, 0, 'R');
+        $pdf->Cell(55, 5, mb_convert_encoding($this->nom, 'ISO-8859-1', 'UTF-8'), 0, 1, 'L');
     
-        $pdf->SetX(5);
-        $pdf->Cell(30, 5, 'Prenom :', 0, 0);
-        $pdf->Cell(50, 5, mb_convert_encoding($this->prenom, 'ISO-8859-1', 'UTF-8'), 0, 1);
+        $pdf->SetX(10);
+        $pdf->Cell(30, 5, 'Prenom :', 0, 0, 'R');
+        $pdf->Cell(55, 5, mb_convert_encoding($this->prenom, 'ISO-8859-1', 'UTF-8'), 0, 1, 'L');
     
-        $pdf->SetX(5);
-        $pdf->Cell(30, 5, mb_convert_encoding('Né(e) le :', 'ISO-8859-1', 'UTF-8'), 0, 0);
-        $pdf->Cell(50, 5, mb_convert_encoding($this->dateNaiss, 'ISO-8859-1', 'UTF-8'), 0, 1);
+        $pdf->SetX(10);
+        $pdf->Cell(30, 5, mb_convert_encoding('Né(e) le :', 'ISO-8859-1', 'UTF-8'), 0, 0, 'R');
+        $pdf->Cell(55, 5, mb_convert_encoding($this->dateNaiss, 'ISO-8859-1', 'UTF-8'), 0, 1, 'L');
     
-        $pdf->SetX(5);
-        $pdf->Cell(30, 5, 'Niveau :', 0, 0);
-        $pdf->Cell(50, 5, mb_convert_encoding($this->niveau, 'ISO-8859-1', 'UTF-8'), 0, 1);
+        
     
         // Ajout de la photo de l'étudiant
-        $pdf->Image($this->image, 60, 20, 20, 25); // Position de la photo
+        $pdf->Image($this->image, 70, 25, 25, 25); // Position de la photo
     
+        // Note en bas de la carte
+        $pdf->SetFont('Arial', 'I', 8);
+        $pdf->SetXY(5, 50);
         // Génération du fichier PDF
         $outputPath = 'cartes_etudiants/' . $this->matricule . '_carte.pdf';
         $pdf->Output('F', $outputPath);
     
         return $outputPath;
     }
+    
+    
 
     function envoyerEmail($emailDestinataire, $sujet, $message, $fichierJoint = null) {
         $mail = new PHPMailer(true);
