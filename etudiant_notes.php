@@ -50,9 +50,11 @@ $versements = $etudiant->getVersements();
         </div>
         <ul>
             <li><a href="etudiant_profil.php"><ion-icon name="person-outline"></ion-icon> Profil</a></li>
-            <li><a href="etudiant_versements.php"><ion-icon name="cash-outline"></ion-icon> Versements</a></li>
+            <!-- <li><a href="etudiant_versements.php"><ion-icon name="cash-outline"></ion-icon> Versements</a></li> -->
             <li><a href="etudiant_notes.php"><ion-icon name="school-outline"></ion-icon> Notes</a></li>
             <li><a href="afficher_mon_bulletin.php?student_id=<?php echo $student_id; ?>" target="_blank"><ion-icon name="document-outline"></ion-icon> Afficher le bulletin</a></li>
+             <!-- Bouton de déconnexion -->
+        <li><a href="logout.php"><ion-icon name="log-out-outline"></ion-icon> Déconnexion</a></li>
         </ul>
     </div>
 

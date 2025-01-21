@@ -458,17 +458,10 @@ public function genererMatricule($Niveau)
         $pdf->SetTextColor(0, 0, 128); // Couleur texte (bleu foncé)
         $pdf->Image('images/logoK.png', 5, 5, 15); // Exemple avec un chemin relatif valide
     
-<<<<<<< HEAD
         $pdf->SetXY(20, 5);
         $pdf->Cell(60, 5, 'MINISTERE DE L\' ENSEIGNEMENT SUPERIEURS ', 0, 1, 'L');
         $pdf->SetX(20);
         $pdf->Cell(60, 5, 'DU CAMEROUN', 0, 1, 'L');
-=======
-        $pdf->SetXY(25, 5);
-        $pdf->Cell(70, 5, 'MINISTERE DES ENSEIGNEMENTS', 0, 1, 'C');
-        $pdf->SetX(25);
-        $pdf->Cell(70, 5, 'SUPERIEURS', 0, 1, 'C');
->>>>>>> fa22d55 (derniere (presque) version)
     
         // Titre principal
         $pdf->SetFont('Arial', 'B', 12);
@@ -506,7 +499,13 @@ public function genererMatricule($Niveau)
     }
     
     
-
+// Récupération des classes
+function getClasses($db) {
+    $sql = "SELECT DISTINCT Niveau FROM etudiants";
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
     function envoyerEmail($emailDestinataire, $sujet, $message, $fichierJoint = null) {
         $mail = new PHPMailer(true);
     

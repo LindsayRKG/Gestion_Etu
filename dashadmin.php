@@ -47,7 +47,10 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gestion des Etudiants</title>
   <link rel="stylesheet" href="assets/css/style.css" />
+  <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="assets/js/script.js"></script>
   <style>
     
   </style>
@@ -167,16 +170,7 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
       <div class="info">
         <p>Date : <span id="currentDate"></span></p>
       </div>
-<<<<<<< HEAD
-      <!-- <div class="search-bar">
-        <form class="search-form d-flex align-items-center" method="POST" action="#">
-          <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-          <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-        </form>
-      </div> -->
-=======
-     
->>>>>>> fa22d55 (derniere (presque) version)
+
     </header>
 
     <main class="main-content">
@@ -434,6 +428,8 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
       Designed by Groupe 7
     </div>
   </footer>
+  <!-- Bootstrap JS (optionnel, si vous avez besoin de fonctionnalités JS de Bootstrap) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

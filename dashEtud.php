@@ -55,7 +55,7 @@ $versements = $etudiant->getVersements();
 <html lang="en">
 
 <head>
-<<<<<<< HEAD
+
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -73,10 +73,19 @@ $versements = $etudiant->getVersements();
     <li><a href="etudiant_profil.php"><ion-icon name="person-outline"></ion-icon> Profil</a></li>
     <li><a href="etudiant_versements.php"><ion-icon name="cash-outline"></ion-icon> Versements</a></li>
     <li><a href="etudiant_notes.php"><ion-icon name="school-outline"></ion-icon> Notes</a></li>
+    
+    
     <!-- <li><a href="etudiant_bulletin.php"><ion-icon name="document-outline"></ion-icon> Bulletin</a></li> -->
-  </ul>
+
+      <li>
+        <a href="logout.php"><ion-icon name="log-out-outline"></ion-icon>
+          <p>Logout</p>
+        </a>
+      </li>
+    
+</ul>
 </div>
-=======
+
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -87,22 +96,22 @@ $versements = $etudiant->getVersements();
 </head>
 
 <body>
->>>>>>> fa22d55 (derniere (presque) version)
 
 
-    <div class="sidebar">
-        <div class="profile">
-            <ion-icon name="person-outline" role="img" class="md hydrated"></ion-icon>
-        </div>
-        <ul>
 
-            <li><a href="etudiant_profil.php"><ion-icon name="person-outline"></ion-icon> Profil</a></li>
-            <li><a href="etudiant_versements.php"><ion-icon name="cash-outline"></ion-icon> Versements</a></li>
-            <li><a href="etudiant_notes.php"><ion-icon name="school-outline"></ion-icon> Notes</a></li>
-            <!-- <li><a href="etudiant_bulletin.php"><ion-icon name="school-outline"></ion-icon>Bulletins</a></li> -->
-            <li><a href="afficher_mon_bulletin.php?student_id=<?php echo $student_id; ?>" target="_blank"><ion-icon name="document-outline"></ion-icon> Afficher le bulletin</a></li>
-        </ul>
+<div class="sidebar">
+    <div class="profile">
+        <ion-icon name="person-outline" role="img" class="md hydrated"></ion-icon>
     </div>
+    <ul>
+        <li><a href="etudiant_profil.php"><ion-icon name="person-outline"></ion-icon> Profil</a></li>
+        <!-- <li><a href="etudiant_versements.php"><ion-icon name="cash-outline"></ion-icon> Versements</a></li> -->
+        <li><a href="etudiant_notes.php"><ion-icon name="school-outline"></ion-icon> Notes</a></li>
+        <li><a href="afficher_mon_bulletin.php?student_id=<?php echo $student_id; ?>" target="_blank"><ion-icon name="document-outline"></ion-icon> Afficher le bulletin</a></li>
+        <!-- Bouton de déconnexion -->
+        <li><a href="logout.php"><ion-icon name="log-out-outline"></ion-icon> Déconnexion</a></li>
+    </ul>
+</div>
   
     <!-- Contenu principal du tableau de bord -->
     <div class="main-content">

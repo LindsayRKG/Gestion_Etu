@@ -1,45 +1,3 @@
-body {
-    
-    background-color: #f8f9fa;
-    font-family: 'Poppins',sans-serif;
-}
-
-.pagetitle {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.card {
-    border-radius: 45px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #ebe7e5;
-    padding: 90px;
-    margin-top: 20px;
-    max-width: 720px; /* Réduire la largeur du formulaire */
-    margin: auto; /* Centrer le formulaire */
-}
-
-.form-group label {
-    font-weight: bold;
-    color: #59595a;
-}
-
-.form-control {
-    border-radius: 10px;
-    border: 1px solid #ced4da;
-    background-color: #e9ecef;
-}
-
-.btn-primary {
-    background-color: #fe725c;;
-    border-color: #fe725c;;
-    border-radius: 10px;
-}
-
-.btn-primary:hover {
-    background-color: #293669;
-    border-color: #202c5d;
-}
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;900&display=swap");
 
 /* Start Global Rules */
@@ -52,23 +10,34 @@ body {
   padding: 0;
 }
 
-
 :root {
-  --main-color: #e2674b; /* Orange */
-  --main-color-dark: #1a2654; /* Bleu nuit plus doux */
+  --main-color: #1a2654; /* Bleu nuit */
+  --main-color-dark: #000000; /* Noir */
   --main-transition: 0.5s all ease-in-out;
-  --light-gray: #f5f5f5; /* Gris clair */
+  --light-gray: #ffffff; /* Blanc */
   --dark-gray: #cccccc;
   --white: #ffffff;
-  --text-color: #333333; /* Couleur des écritures */
-  --hover-bg: #ebf0fe; /* Couleur de fond au survol */
-  --active-bg: #ffffff; /* Couleur de fond actif */
-  --active-text: #1a2654;/* Couleur du texte actif */
-  --sidebar-text-color: #e98c4a; /* Couleur des écritures de la sidebar */
+  --text-color: #000000; /* Noir */
+  --hover-bg: #e6e6e6; /* Gris clair pour le survol */
+  --active-bg: #f0f0f0; /* Gris clair pour l'élément actif */
+  --active-text: #1a2654; /* Bleu nuit pour le texte actif */
+  --sidebar-text-color: #e1e2e6; /* Bleu nuit pour le texte de la sidebar */
+}
+
+[data-theme="dark"] {
+  --light-gray: #121212; /* Fond sombre plus contrasté */
+  --dark-gray: #1e1e1e; /* Gris plus foncé pour un meilleur contraste */
+  --white: #1e1e1e; /* Fond sombre pour les éléments */
+  --text-color: #ffffff; /* Texte clair pour le mode sombre */
+  --hover-bg: #2a2a2a; /* Couleur de fond au survol pour le mode sombre */
+  --active-bg: #333333; /* Couleur de fond actif pour le mode sombre */
+  --active-text: #ffffff; /* Couleur du texte actif pour le mode sombre */
+  --sidebar-text-color: #ffffff; /* Couleur des écritures de la sidebar pour le mode sombre */
 }
 
 body {
   background-color: var(--light-gray);
+  color: var(--text-color);
 }
 
 ::selection {
@@ -81,7 +50,7 @@ body {
 /* Start Sidebar */
 .sidebar {
   width: 100px;
-  background-color:  #1a2654; /* Bleu nuit plus doux */
+  background-color: var(--main-color); /* Bleu nuit */
   padding: 20px;
   position: fixed;
   border-top-right-radius: 15px;
@@ -92,28 +61,28 @@ body {
   overflow: hidden;
   transition: var(--main-transition);
   z-index: 1000;
-  overflow-y: auto; /* Ajoute un défilement vertical si le contenu dépasse */
-  overflow-x: hidden; /* Évite le défilement horizontal */
-  padding: 15px; /* Ajoute un espace autour du contenu */
-  box-sizing: border-box; /* Inclut le padding dans la largeur/hauteur */
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 15px;
+  box-sizing: border-box;
 }
 
 .sidebar::-webkit-scrollbar {
-  width: 8px; /* Largeur de la barre de défilement */
+  width: 8px;
 }
 
 .sidebar::-webkit-scrollbar-track {
-  background: var(--dark-gray); /* Couleur de la piste */
+  background: var(--dark-gray);
   border-radius: 5px;
 }
 
 .sidebar::-webkit-scrollbar-thumb {
-  background: var(--main-color); /* Couleur de la barre */
-  border-radius: 5px; /* Coins arrondis */
+  background: var(--main-color-dark);
+  border-radius: 5px;
 }
 
 .sidebar::-webkit-scrollbar-thumb:hover {
-  background: var(--main-color-dark); /* Couleur au survol */
+  background: var(--main-color);
 }
 
 .sidebar:hover {
@@ -129,7 +98,7 @@ body {
   height: 55px;
   border-radius: 15px;
   color: var(--white);
-  background-color: var(--main-color);
+  background-color: var(--main-color-dark);
   display: grid;
   place-items: center;
   font-size: 25px;
@@ -148,7 +117,7 @@ body {
 }
 
 .sidebar ul span {
-  color: var(--sidebar-text-color); /* Jaune */
+  color: var(--sidebar-text-color);
   text-transform: uppercase;
   font-weight: 400;
   font-size: 13px;
@@ -174,7 +143,7 @@ body {
   transition: 0.3s all ease-in-out;
   font-size: 16px;
   width: 300px;
-  color: var(--sidebar-text-color); /* Jaune */
+  color: var(--sidebar-text-color);
   font-weight: 500;
   text-decoration: none;
 }
@@ -185,7 +154,7 @@ body {
 
 .sidebar ul li a:hover {
   background-color: var(--hover-bg);
-  color: var(--main-color-dark);
+  color: var(--main-color);
 }
 
 .sidebar ul li a.active {
@@ -270,13 +239,13 @@ body {
   display: flex;
   height: 100vh;
   overflow: hidden;
-  position: relative; /* Assure que les éléments restent dans le conteneur */
+  position: relative;
 }
 
 /* Contenu principal */
 .main-content {
   flex: 1;
-  margin-left: 100px; /* Aligné avec la largeur de la sidebar */
+  margin-left: 100px;
   padding: 20px;
   background-color: var(--light-gray);
   box-sizing: border-box;
@@ -285,15 +254,305 @@ body {
 }
 
 .sidebar:hover ~ .main-content {
-  margin-left: 300px; /* S'aligne dynamiquement sur la largeur étendue de la sidebar */
+  margin-left: 300px;
 }
 
-a {
-    color: #ff5b00;
-    text-decoration: none;
-    background-color: transparent;
+/* Section principale */
+.main-content {
+  padding: 20px;
+  background-color: var(--light-gray);
+  border-radius: 15px;
+  margin-left: 100px;
 }
 
-.w-50 {
-    width: 50% !important;
+.main-content h1 {
+  text-align: center;
+  color: var(--text-color);
+}
+
+.main-content h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--text-color);
+}
+
+/* Titres des sections */
+.stats-section h2,
+.charts-section h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Statistiques clés */
+.stats-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: var(--white);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card h3 {
+  font-size: 18px;
+  color: var(--text-color);
+}
+
+.card p {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 10px;
+  color: var(--main-color);
+}
+
+/* Styles spécifiques pour le mode sombre */
+[data-theme="dark"] .card {
+  background: #1e1e1e; /* Fond sombre pour les cartes */
+}
+
+[data-theme="dark"] .card h3 {
+  color: var(--white); /* Texte blanc pour les titres */
+}
+
+[data-theme="dark"] .card p {
+  color: var(--white); /* Texte blanc pour les valeurs */
+}
+
+/* Graphiques */
+.charts-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.chart {
+  background: var(--white);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.chart h3 {
+  font-size: 18px;
+  color: var(--text-color);
+  margin-bottom: 15px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .stats-cards,
+  .charts-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Header */
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 20px;
+  background-color: var(--main-color);
+  color: var(--white);
+  border-radius: 8px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.main-header .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.main-header .logo img {
+  height: 68px;
+  width: 72px;
+  border-radius: 28%;
+  height: 80px;
+  width: 180px;
+  border-radius: 50%;
+}
+
+.main-header .info {
+  font-size: 14px;
+  background-color: var(--white);
+  color: var(--text-color);
+  padding: 10px;
+  border-radius: 8px;
+}
+
+[data-theme="dark"] .main-header .info {
+  background-color: var(--white);
+  color: var(--text-color);
+}
+
+@media (max-width: 1199px) {
+  .header .search-bar {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    box-shadow: 0px 0px 15px 0px rgba(1, 41, 112, 0.1);
+    background: var(--white);
+    z-index: 9999;
+    transition: 0.3s;
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .header .search-bar-show {
+    top: 60px;
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.header .search-form {
+  width: 100%;
+}
+
+.header .search-form input {
+  border: 0;
+  font-size: 14px;
+  color: var(--text-color);
+  border: 1px solid rgba(1, 41, 112, 0.2);
+  padding: 7px 38px 7px 8px;
+  border-radius: 3px;
+  transition: 0.3s;
+  width: 100%;
+}
+
+.header .search-form input:focus,
+.header .search-form input:hover {
+  outline: none;
+  box-shadow: 0 0 10px 0 rgba(1, 41, 112, 0.15);
+  border: 1px solid rgba(1, 41, 112, 0.3);
+}
+
+.header .search-form button {
+  border: 0;
+  padding: 0;
+  margin-left: -30px;
+  background: none;
+}
+
+.header .search-form button i {
+  color: var(--text-color);
+}
+
+@media (min-width: 1200px) {
+  #main,
+  #footer {
+    margin-left: 200px;
+  }
+}
+
+/* Footer */
+.footer {
+  padding: 20px 0;
+  font-size: 14px;
+  transition: all 0.3s;
+  border-top: 1px solid var(--dark-gray);
+}
+
+.footer .copyright {
+  text-align: center;
+  color: var(--text-color);
+}
+
+.footer .credits {
+  padding-top: 5px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-color);
+}
+
+/* Style du tableau */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table,
+th,
+td {
+  border: 1px solid var(--dark-gray);
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: var(--main-color);
+  color: var(--white);
+}
+
+tr:nth-child(even) {
+  background-color: var(--light-gray);
+}
+
+tr:hover {
+  background-color: var(--hover-bg);
+}
+
+/* Éléments spécifiques à conserver par défaut */
+.stats-section .card,
+.charts-section .chart {
+  background: #ffffff; /* Fond blanc par défaut */
+  color: #000000; /* Texte noir par défaut */
+}
+
+.stats-section .card h3,
+.charts-section .chart h3 {
+  color: #000000; /* Texte noir par défaut */
+}
+
+.stats-section .card p,
+.charts-section .chart p {
+  color: #000000; /* Texte noir par défaut */
+}
+
+/* Écritures en blanc en mode sombre */
+[data-theme="dark"] .main-content,
+[data-theme="dark"] .main-content h1,
+[data-theme="dark"] .main-content h2,
+[data-theme="dark"] .main-content h3,
+[data-theme="dark"] .main-content h4,
+[data-theme="dark"] .main-content h5,
+[data-theme="dark"] .main-content h6,
+[data-theme="dark"] .stats-section h2,
+[data-theme="dark"] .charts-section h2,
+[data-theme="dark"] .card h3,
+[data-theme="dark"] .card p,
+[data-theme="dark"] .chart h3,
+[data-theme="dark"] .footer .copyright,
+[data-theme="dark"] .footer .credits {
+  color: #ece3e3; /* Texte blanc en mode sombre */
+}
+
+/* Labels en mode sombre */
+[data-theme="dark"] label {
+  color: var(--text-color); /* Texte sombre pour les labels en mode sombre */
 }

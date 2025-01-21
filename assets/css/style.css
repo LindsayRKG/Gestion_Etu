@@ -11,21 +11,33 @@
 }
 
 :root {
-  --main-color: #e2674b; /* Orange */
-  --main-color-dark: #1a2654; /* Bleu nuit plus doux */
+  --main-color: #1a2654; /* Bleu nuit */
+  --main-color-dark: #000000; /* Noir */
   --main-transition: 0.5s all ease-in-out;
-  --light-gray: #f5f5f5; /* Gris clair */
+  --light-gray: #ffffff; /* Blanc */
   --dark-gray: #cccccc;
   --white: #ffffff;
-  --text-color: #333333; /* Couleur des écritures */
-  --hover-bg: #ebf0fe; /* Couleur de fond au survol */
-  --active-bg: #ffffff; /* Couleur de fond actif */
-  --active-text: #1a2654;/* Couleur du texte actif */
-  --sidebar-text-color: #e98c4a; /* Couleur des écritures de la sidebar */
+  --text-color: #000000; /* Noir */
+  --hover-bg: #e6e6e6; /* Gris clair pour le survol */
+  --active-bg: #f0f0f0; /* Gris clair pour l'élément actif */
+  --active-text: #1a2654; /* Bleu nuit pour le texte actif */
+  --sidebar-text-color: #e1e2e6; /* Bleu nuit pour le texte de la sidebar */
+}
+
+[data-theme="dark"] {
+  --light-gray: #000000; /* Fond sombre */
+  --dark-gray: #333333; /* Gris plus foncé */
+  --white: #000000; /* Noir pour le mode sombre */
+  --text-color: #ffffff; /* Texte clair pour le mode sombre */
+  --hover-bg: #374151; /* Couleur de fond au survol pour le mode sombre */
+  --active-bg: #2d2d2d; /* Couleur de fond actif pour le mode sombre */
+  --active-text: #ffffff; /* Couleur du texte actif pour le mode sombre */
+  --sidebar-text-color: #ffffff; /* Couleur des écritures de la sidebar pour le mode sombre */
 }
 
 body {
   background-color: var(--light-gray);
+  color: var(--text-color);
 }
 
 ::selection {
@@ -38,7 +50,7 @@ body {
 /* Start Sidebar */
 .sidebar {
   width: 100px;
-  background-color:  #1a2654; /* Bleu nuit plus doux */
+  background-color: var(--main-color); /* Bleu nuit */
   padding: 20px;
   position: fixed;
   border-top-right-radius: 15px;
@@ -49,28 +61,28 @@ body {
   overflow: hidden;
   transition: var(--main-transition);
   z-index: 1000;
-  overflow-y: auto; /* Ajoute un défilement vertical si le contenu dépasse */
-  overflow-x: hidden; /* Évite le défilement horizontal */
-  padding: 15px; /* Ajoute un espace autour du contenu */
-  box-sizing: border-box; /* Inclut le padding dans la largeur/hauteur */
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 15px;
+  box-sizing: border-box;
 }
 
 .sidebar::-webkit-scrollbar {
-  width: 8px; /* Largeur de la barre de défilement */
+  width: 8px;
 }
 
 .sidebar::-webkit-scrollbar-track {
-  background: var(--dark-gray); /* Couleur de la piste */
+  background: var(--dark-gray);
   border-radius: 5px;
 }
 
 .sidebar::-webkit-scrollbar-thumb {
-  background: var(--main-color); /* Couleur de la barre */
-  border-radius: 5px; /* Coins arrondis */
+  background: var(--main-color-dark);
+  border-radius: 5px;
 }
 
 .sidebar::-webkit-scrollbar-thumb:hover {
-  background: var(--main-color-dark); /* Couleur au survol */
+  background: var(--main-color);
 }
 
 .sidebar:hover {
@@ -86,7 +98,7 @@ body {
   height: 55px;
   border-radius: 15px;
   color: var(--white);
-  background-color: var(--main-color);
+  background-color: var(--main-color-dark);
   display: grid;
   place-items: center;
   font-size: 25px;
@@ -105,7 +117,7 @@ body {
 }
 
 .sidebar ul span {
-  color: var(--sidebar-text-color); /* Jaune */
+  color: var(--sidebar-text-color);
   text-transform: uppercase;
   font-weight: 400;
   font-size: 13px;
@@ -131,7 +143,7 @@ body {
   transition: 0.3s all ease-in-out;
   font-size: 16px;
   width: 300px;
-  color: var(--sidebar-text-color); /* Jaune */
+  color: var(--sidebar-text-color);
   font-weight: 500;
   text-decoration: none;
 }
@@ -142,7 +154,7 @@ body {
 
 .sidebar ul li a:hover {
   background-color: var(--hover-bg);
-  color: var(--main-color-dark);
+  color: var(--main-color);
 }
 
 .sidebar ul li a.active {
@@ -227,13 +239,13 @@ body {
   display: flex;
   height: 100vh;
   overflow: hidden;
-  position: relative; /* Assure que les éléments restent dans le conteneur */
+  position: relative;
 }
 
 /* Contenu principal */
 .main-content {
   flex: 1;
-  margin-left: 100px; /* Aligné avec la largeur de la sidebar */
+  margin-left: 100px;
   padding: 20px;
   background-color: var(--light-gray);
   box-sizing: border-box;
@@ -242,7 +254,7 @@ body {
 }
 
 .sidebar:hover ~ .main-content {
-  margin-left: 300px; /* S'aligne dynamiquement sur la largeur étendue de la sidebar */
+  margin-left: 300px;
 }
 
 /* Section principale */
@@ -250,7 +262,7 @@ body {
   padding: 20px;
   background-color: var(--light-gray);
   border-radius: 15px;
-  margin-left: 100px; /* Ajusté pour correspondre à la largeur de la sidebar */
+  margin-left: 100px;
 }
 
 .main-content h1 {
@@ -282,7 +294,7 @@ body {
 }
 
 .card {
-  background: #e8e8e8;
+  background: var(--white);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 20px;
   text-align: center;
@@ -307,16 +319,28 @@ body {
   color: var(--main-color);
 }
 
+/* Styles spécifiques pour le mode sombre */
+[data-theme="dark"] .card {
+  background: #000000; /* Fond sombre pour les cartes */
+}
+
+[data-theme="dark"] .card h3 {
+  color: var(--white); /* Texte blanc pour les titres */
+}
+
+[data-theme="dark"] .card p {
+  color: var(--white); /* Texte blanc pour les valeurs */
+}
+
 /* Graphiques */
 .charts-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
-  
 }
 
 .chart {
-  background: #e8e8e8;
+  background: var(--white);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 20px;
   border-radius: 10px;
@@ -358,19 +382,25 @@ body {
 }
 
 .main-header .logo img {
-<<<<<<< HEAD
   height: 68px;
   width: 72px;
   border-radius: 28%;
-=======
   height: 80px;
   width: 180px;
   border-radius: 50%;
->>>>>>> fa22d55 (derniere (presque) version)
 }
 
 .main-header .info {
   font-size: 14px;
+  background-color: var(--white);
+  color: var(--text-color);
+  padding: 10px;
+  border-radius: 8px;
+}
+
+[data-theme="dark"] .main-header .info {
+  background-color: var(--white);
+  color: var(--text-color);
 }
 
 @media (max-width: 1199px) {
@@ -475,8 +505,8 @@ td {
 }
 
 th {
-  background-color: var(--main-color-dark); /* Bleu nuit */
-  color: var(--sidebar-text-color); /* Jaune */
+  background-color: var(--main-color);
+  color: var(--white);
 }
 
 tr:nth-child(even) {
@@ -485,4 +515,21 @@ tr:nth-child(even) {
 
 tr:hover {
   background-color: var(--hover-bg);
+}
+
+/* Éléments spécifiques à conserver par défaut */
+.stats-section .card,
+.charts-section .chart {
+  background: #ffffff; /* Fond blanc par défaut */
+  color: #000000; /* Texte noir par défaut */
+}
+
+.stats-section .card h3,
+.charts-section .chart h3 {
+  color: #000000; /* Texte noir par défaut */
+}
+
+.stats-section .card p,
+.charts-section .chart p {
+  color: #000000; /* Texte noir par défaut */
 }
