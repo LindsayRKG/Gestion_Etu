@@ -1,4 +1,7 @@
 <?php
+use App\Database;
+use App\Cours;
+use App\Notes;  
 // Connexion à la base de données (modifiez avec vos informations de connexion)
 include_once 'Classes/Database.php';
 include_once 'Classes/Cours.php';
@@ -34,8 +37,6 @@ $query4 = "SELECT e.Niveau, AVG(b.moyenne) AS moyenne_classe
            GROUP BY e.Niveau";
 $stmt4 = $db->query($query4);
 $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-
-
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +48,10 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gestion des Etudiants</title>
   <link rel="stylesheet" href="assets/css/style.css" />
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="assets/js/script.js"></script>
 </head>
 
 <body>
@@ -90,7 +94,7 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
         </a>
       </li>
       <li>
-        <a href="lister_vers.php" id="listVerstLink"><ion-icon name="list-outline"></ion-icon>
+        <a href="lister_vers.php" id="listVerstLink"><ion-icon name="cash-outline"></ion-icon>
           <p>Lister les Versements</p>
         </a>
       </li>
@@ -139,9 +143,13 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
       <li class="switch-theme">
         <a href="#"><ion-icon name="moon-outline"></ion-icon>
           <p>Darkmode</p>
-          <button id="darkModeToggle">
-            <div class="circle"></div>
-          </button>
+           <!-- Bouton de bascule de thème -->
+          <div class="theme-switcher">
+            <button id="theme-toggle">
+              <ion-icon name="moon-outline" class="moon-icon"></ion-icon>
+              <ion-icon name="sunny-outline" class="sun-icon"></ion-icon>
+            </button>
+          </div>
         </a>
       </li>
       <li>
@@ -157,27 +165,19 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
     <!-- Header -->
     <header class="main-header">
       <div class="logo">
-        <img src="images/logoK.ico" alt="Logo" />
+        <img src="images/logoK2.png" alt="Logo" />
         <h1>Gestion des Étudiants</h1>
       </div>
       <div class="info">
         <p>Date : <span id="currentDate"></span></p>
       </div>
-      <!-- <div class="search-bar">
-        <form class="search-form d-flex align-items-center" method="POST" action="#">
-          <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-          <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-        </form>
-      </div> -->
     </header>
 
     <main class="main-content">
       <h2>BIENVENUE DANS LE GESTIONNAIRE DES ETUDIANTS DE KEYCE!</h2>
       <h2>Choisissez une action dans le menu</h2>
 
-      
       <!-- Section : Statistiques clés -->
-
       <section class="stats-section">
         <h2>Statistiques clés</h2>
         <div class="stats-cards">
@@ -210,7 +210,6 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
         </div>
       </section>
 
-
       <!-- Section : Graphiques et Rapports -->
       <section class="charts-section">
         <h2>Graphiques et Rapports</h2>
@@ -230,30 +229,10 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
           <div class="chart">
             <h3>Nombres d'etudiants</h3>
             <canvas id="etudiantsParNiveauChart"></canvas>
-          
-
-            <!-- Courbe des Notes
-            <div class="chart">
-            <h3>Mentions pas classe</h3>
-            <canvas id="mentionsParNiveauChart"></canvas>
-          </div> -->
-
-      
-          <!-- Courbe des Notes -->
-          
-          <!-- Classe avec le plus d’étudiants -->
-          
-          <!-- <div class="chart">
-            <h3>Nombres de notes pas cours</h3>
-            <canvas id="coursParNotesChart"></canvas>
-          </div> -->
-
-       
- 
+          </div>
         </div>
-  </div>
-  </section>
-  </main>
+      </section>
+    </main>
   </div>
 
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -261,177 +240,196 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
   <script src="script.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-        // Fonction générique pour récupérer les données
-        async function fetchData(statType) {
-            const response = await fetch(`get_stats.php?stat=${statType}`);
-            if (!response.ok) {
-                throw new Error(`Erreur de réseau: ${response.statusText}`);
-            }
-            const data = await response.json();
-            console.log(`Données pour ${statType}:`, data); // Ajoutez ce log pour vérifier les données
-            return data;
-        }
+    // Fonction générique pour récupérer les données
+    async function fetchData(statType) {
+      const response = await fetch(`get_stats.php?stat=${statType}`);
+      if (!response.ok) {
+        throw new Error(`Erreur de réseau: ${response.statusText}`);
+      }
+      const data = await response.json();
+      console.log(`Données pour ${statType}:`, data);
+      return data;
+    }
 
-        // Fonction pour créer ou mettre à jour un graphique
-        function createOrUpdateChart(chartId, chartType, labels, datasets) {
-            const chartElement = document.getElementById(chartId);
-            let chart = Chart.getChart(chartId);
+    // Fonction pour créer ou mettre à jour un graphique
+    function createOrUpdateChart(chartId, chartType, labels, datasets) {
+      const chartElement = document.getElementById(chartId);
+      let chart = Chart.getChart(chartId);
 
-            if (chart) {
-                chart.data.labels = labels;
-                chart.data.datasets = datasets;
-                chart.update();
-            } else {
-                chart = new Chart(chartElement, {
-                    type: chartType,
-                    data: {
-                        labels: labels,
-                        datasets: datasets
-                    }
-                });
-            }
-        }
-
-        // Solvabilité Chart
-        async function updateSolvabiliteChart() {
-            try {
-                const data = await fetchData('solvabilite');
-                const solvableCount = data.filter(d => d.categorie === 'Solvable').length;
-                const insolvableCount = data.filter(d => d.categorie === 'Insolvable').length;
-                const enCoursCount = data.filter(d => d.categorie === 'En Cours').length;
-
-                const labels = ['Solvable', 'Insolvable', 'En Cours'];
-                const counts = [solvableCount, insolvableCount, enCoursCount];
-                const backgroundColors = ['rgba(75, 192, 192, 0.6)', 'rgba(255, 99, 132, 0.6)', 'rgba(255, 205, 86, 0.6)'];
-
-                const datasets = [{
-                    label: 'Taux de Solvabilité',
-                    data: counts,
-                    backgroundColor: backgroundColors
-                }];
-
-                createOrUpdateChart('solvabiliteChart', 'pie', labels, datasets);
-            } catch (error) {
-                console.error('Erreur lors de la mise à jour du graphique de solvabilité:', error);
-            }
-        }
-
-        // Étudiants par Niveau Chart
-              // Étudiants par Niveau Chart
-              async function updateEtudiantsParNiveauChart() {
-            try {
-                const data = await fetchData('etudiants_par_niveau');
-                const labels = data.map(d => d.Niveau);
-                const nombreEtudiants = data.map(d => d.nombre_etudiants);
-                const backgroundColors = ['#FF6384', '#36A2EB', '#FFCE56'];
-
-                const datasets = [{
-                    label: 'Nombre d\'Étudiants',
-                    data: nombreEtudiants,
-                    backgroundColor: backgroundColors
-                }];
-
-                createOrUpdateChart('etudiantsParNiveauChart', 'bar', labels, datasets);
-            } catch (error) {
-                console.error('Erreur lors de la mise à jour du graphique des étudiants par niveau:', error);
-            }
-        }
-
-
-        // Mentions par Niveau Chart
-        async function updateMentionsParNiveauChart() {
-            try {
-                const data = await fetchData('mentions_par_niveau');
-                const niveaux = [...new Set(data.map(d => d.Niveau))];
-                const mentions = [...new Set(data.map(d => d.mention))];
-
-                const datasets = mentions.map(mention => ({
-                    label: mention,
-                    data: niveaux.map(niveau => {
-                        const niveauData = data.find(d => d.Niveau === niveau && d.mention === mention);
-                        return niveauData ? niveauData.nombre_mentions : 0;
-                    }),
-                    backgroundColor: '#' + Math.floor(Math.random() * 16777215).toString(16)
-                }));
-
-                createOrUpdateChart('mentionsParNiveauChart', 'bar', niveaux, datasets);
-            } catch (error) {
-                console.error('Erreur lors de la mise à jour du graphique des mentions par niveau:', error);
-            }
-        }
-
-        // Cours par Notes Chart
-        async function updateCoursParNotesChart() {
-            try {
-                const data = await fetchData('cours_par_notes');
-                const labels = data.map(d => d.nom_cours);
-                const nombreNotes = data.map(d => d.nombre_notes);
-                const backgroundColors = 'rgba(153, 102, 255, 0.6)';
-
-                const datasets = [{
-                    label: 'Nombre de Notes',
-                    data: nombreNotes,
-                    backgroundColor: backgroundColors
-                }];
-
-                createOrUpdateChart('coursParNotesChart', 'bar', labels, datasets);
-            } catch (error) {
-                console.error('Erreur lors de la mise à jour du graphique des cours par notes:', error);
-            }
-        }
-
-        // Versements par Jour Chart
-        async function updateVersementsParJourChart() {
-            try {
-                const data = await fetchData('versements_par_jour');
-                console.log('Données des versements par jour:', data); // Ajoutez ce log pour vérifier les données
-                const labels = data.map(d => d.date);
-                const totalVersements = data.map(d => d.total_versements);
-                const backgroundColors = 'rgba(54, 162, 235, 0.6)';
-
-                const datasets = [{
-                    label: 'Total des Versements',
-                    data: totalVersements,
-                    backgroundColor: backgroundColors
-                }];
-
-                createOrUpdateChart('versementsParJourChart', 'bar', labels, datasets);
-            } catch (error) {
-                console.error('Erreur lors de la mise à jour du graphique des versements par jour:', error);
-            }
-        }
-
-        // Fonction pour mettre à jour tous les graphiques
-        async function updateAllCharts() {
-            await updateSolvabiliteChart();
-            await updateEtudiantsParNiveauChart();
-            await updateMentionsParNiveauChart();
-            await updateCoursParNotesChart();
-            await updateVersementsParJourChart();
-        }
-
-        // Mettre à jour les graphiques toutes les 10 secondes
-        setInterval(updateAllCharts, 10000);
-
-        // Charger les graphiques initialement
-        updateAllCharts();
-
-        // Fonction pour générer les bulletins et afficher le résultat
-        document.getElementById('addBullLink').addEventListener('click', async function(event) {
-            event.preventDefault();
-            try {
-                const response = await fetch('generer_bulletins.php');
-                if (!response.ok) {
-                    throw new Error(`Erreur de réseau: ${response.statusText}`);
-                }
-                const data = await response.text();
-                document.getElementById('bulletinsContent').innerHTML = data;
-                document.getElementById('bulletinsSection').style.display = 'block';
-            } catch (error) {
-                console.error('Erreur lors de la génération des bulletins:', error);
-            }
+      if (chart) {
+        chart.data.labels = labels;
+        chart.data.datasets = datasets;
+        chart.update();
+      } else {
+        chart = new Chart(chartElement, {
+          type: chartType,
+          data: {
+            labels: labels,
+            datasets: datasets
+          }
         });
-    </script>
+      }
+    }
+
+    // Solvabilité Chart
+    async function updateSolvabiliteChart() {
+      try {
+        const data = await fetchData('solvabilite');
+        const solvableCount = data.filter(d => d.categorie === 'Solvable').length;
+        const insolvableCount = data.filter(d => d.categorie === 'Insolvable').length;
+        const enCoursCount = data.filter(d => d.categorie === 'En Cours').length;
+
+        const labels = ['Solvable', 'Insolvable', 'En Cours'];
+        const counts = [solvableCount, insolvableCount, enCoursCount];
+        const backgroundColors = ['rgba(75, 192, 192, 0.6)', 'rgba(255, 99, 132, 0.6)', 'rgba(255, 205, 86, 0.6)'];
+
+        const datasets = [{
+          label: 'Taux de Solvabilité',
+          data: counts,
+          backgroundColor: backgroundColors
+        }];
+
+        createOrUpdateChart('solvabiliteChart', 'pie', labels, datasets);
+      } catch (error) {
+        console.error('Erreur lors de la mise à jour du graphique de solvabilité:', error);
+      }
+    }
+
+    // Étudiants par Niveau Chart
+    async function updateEtudiantsParNiveauChart() {
+      try {
+        const data = await fetchData('etudiants_par_niveau');
+        const labels = data.map(d => d.Niveau);
+        const nombreEtudiants = data.map(d => d.nombre_etudiants);
+        const backgroundColors = ['#FF6384', '#36A2EB', '#FFCE56'];
+
+        const datasets = [{
+          label: 'Nombre d\'Étudiants',
+          data: nombreEtudiants,
+          backgroundColor: backgroundColors
+        }];
+
+        createOrUpdateChart('etudiantsParNiveauChart', 'bar', labels, datasets);
+      } catch (error) {
+        console.error('Erreur lors de la mise à jour du graphique des étudiants par niveau:', error);
+      }
+    }
+
+    // Mentions par Niveau Chart
+    async function updateMentionsParNiveauChart() {
+      try {
+        const data = await fetchData('mentions_par_niveau');
+        const niveaux = [...new Set(data.map(d => d.Niveau))];
+        const mentions = [...new Set(data.map(d => d.mention))];
+
+        const datasets = mentions.map(mention => ({
+          label: mention,
+          data: niveaux.map(niveau => {
+            const niveauData = data.find(d => d.Niveau === niveau && d.mention === mention);
+            return niveauData ? niveauData.nombre_mentions : 0;
+          }),
+          backgroundColor: '#' + Math.floor(Math.random() * 16777215).toString(16)
+        }));
+
+        createOrUpdateChart('mentionsParNiveauChart', 'bar', niveaux, datasets);
+      } catch (error) {
+        console.error('Erreur lors de la mise à jour du graphique des mentions par niveau:', error);
+      }
+    }
+
+    // Cours par Notes Chart
+    async function updateCoursParNotesChart() {
+      try {
+        const data = await fetchData('cours_par_notes');
+        const labels = data.map(d => d.nom_cours);
+        const nombreNotes = data.map(d => d.nombre_notes);
+        const backgroundColors = 'rgba(153, 102, 255, 0.6)';
+
+        const datasets = [{
+          label: 'Nombre de Notes',
+          data: nombreNotes,
+          backgroundColor: backgroundColors
+        }];
+
+        createOrUpdateChart('coursParNotesChart', 'bar', labels, datasets);
+      } catch (error) {
+        console.error('Erreur lors de la mise à jour du graphique des cours par notes:', error);
+      }
+    }
+
+    // Versements par Jour Chart
+    async function updateVersementsParJourChart() {
+      try {
+        const data = await fetchData('versements_par_jour');
+        console.log('Données des versements par jour:', data);
+        const labels = data.map(d => d.date);
+        const totalVersements = data.map(d => d.total_versements);
+        const backgroundColors = 'rgba(54, 162, 235, 0.6)';
+
+        const datasets = [{
+          label: 'Total des Versements',
+          data: totalVersements,
+          backgroundColor: backgroundColors
+        }];
+
+        createOrUpdateChart('versementsParJourChart', 'bar', labels, datasets);
+      } catch (error) {
+        console.error('Erreur lors de la mise à jour du graphique des versements par jour:', error);
+      }
+    }
+
+    // Fonction pour mettre à jour tous les graphiques
+    async function updateAllCharts() {
+      await updateSolvabiliteChart();
+      await updateEtudiantsParNiveauChart();
+      await updateMentionsParNiveauChart();
+      await updateCoursParNotesChart();
+      await updateVersementsParJourChart();
+    }
+
+    // Mettre à jour les graphiques toutes les 10 secondes
+    setInterval(updateAllCharts, 10000);
+
+    // Charger les graphiques initialement
+    updateAllCharts();
+
+    document.addEventListener('DOMContentLoaded', function() {
+  const themeToggle = document.getElementById('theme-toggle');
+  const body = document.body;
+  const moonIcon = themeToggle.querySelector('.moon-icon');
+  const sunIcon = themeToggle.querySelector('.sun-icon');
+
+  // Fonction pour mettre à jour les icônes en fonction du thème
+  function updateIcons(isDarkMode) {
+    if (isDarkMode) {
+      moonIcon.style.display = 'none';
+      sunIcon.style.display = 'block';
+    } else {
+      moonIcon.style.display = 'block';
+      sunIcon.style.display = 'none';
+    }
+  }
+
+  // Gestion du clic sur le bouton
+  themeToggle.addEventListener('click', function() {
+    const isDarkMode = body.getAttribute('data-theme') === 'dark';
+    body.setAttribute('data-theme', isDarkMode ? 'light' : 'dark');
+    localStorage.setItem('theme', isDarkMode ? 'light' : 'dark');
+    updateIcons(!isDarkMode);
+  });
+
+  // Vérifiez le thème stocké dans localStorage
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    body.setAttribute('data-theme', savedTheme);
+    updateIcons(savedTheme === 'dark');
+  } else {
+    // Si aucun thème n'est stocké, utilisez le thème par défaut (light)
+    body.setAttribute('data-theme', 'light');
+    updateIcons(false);
+  }
+});
+  </script>
   <footer id="footer" class="footer">
     <div class="copyright">
       &copy; Copyright <strong><span>Keyce</span></strong>. All Rights Reserved
@@ -440,6 +438,8 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
       Designed by Groupe 7
     </div>
   </footer>
+  <!-- Bootstrap JS (optionnel, si vous avez besoin de fonctionnalités JS de Bootstrap) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

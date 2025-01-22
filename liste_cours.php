@@ -61,6 +61,20 @@ $listeCours = $cours->listerCours();
             color: white;
             /* Couleur du texte blanche */
         }
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0px;
+            overflow-wrap: break-word;
+            background-color: rgb(255, 255, 255);
+            background-clip: border-box;
+            border-width: 1px;
+            border-style: solid;
+            border-color: rgba(0, 0, 0, 0.125);
+            border-image: initial;
+            border-radius: 4.25rem;
+        }
     </style>
 </head>
 
@@ -107,7 +121,7 @@ $listeCours = $cours->listerCours();
 
                                             <div class="table-responsive">
 
-                                                <a href="ajouter_cours.php">Ajouter un Nouveau Cours</a>
+                                                
                                                 <table class="table table-striped">
                                                     <thead>
                                                         <tr>

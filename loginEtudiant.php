@@ -1,65 +1,32 @@
 <?php
 session_start();
+
 require_once 'Classes/Database.php';
 require_once 'Classes/Etudiant.php';
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+$database = new Database();
+$db = $database->getConnection();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username']; // Matricule utilisé comme nom d'utilisateur
+$etudiant = new Etudiant($db);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $matricule = $_POST['username'];
     $password = $_POST['password'];
 
-    $database = new Database();
-    $conn = $database->getConnection();
+    if ($etudiant->login($matricule, $password)) {
+        $_SESSION['student_id'] = $etudiant->id;
 
-    // Vérifie les informations dans la table `users`
-    $query = "SELECT * FROM user WHERE nom = :username";
-    $stmt = $conn->prepare($query);
-    $stmt->bindValue(':username', $username, PDO::PARAM_STR);
-    $stmt->execute();
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($user) {
-        // Vérification du mot de passe
-        if (password_verify($password, $user['pass'])) {
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['nom'];
-
-            // Vérifier si c'est la première connexion
-            $query = "SELECT * FROM etudiants WHERE id = :user_id";
-            $stmt = $conn->prepare($query);
-            $stmt->bindValue(':user_id', $user['id'], PDO::PARAM_INT);
-            $stmt->execute();
-            $etudiant = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($etudiant) {
-                $_SESSION['etudiant_id'] = $etudiant['id'];
-                $_SESSION['matricule'] = $etudiant['matricule'];
-                $_SESSION['nom'] = $etudiant['nom'];
-                $_SESSION['prenom'] = $etudiant['prenom'];
-
-                if (!$user['password_changed']) {
-                    header('Location: change_password.php');
-                    exit();
-                }
-
-                // Redirige vers le tableau de bord étudiant
-                header('Location: dashEtud.php');
-                exit();
-            } else {
-                $error = "Aucun étudiant associé à ce compte.";
-            }
-        } else {
-            $error = "Mot de passe incorrect.";
+        // if (!$etudiant->password_changed) {
+        //     header('Location: change_password.php');
+        // } else {
+            header('Location: dashEtud.php');
         }
+        exit();
     } else {
-        $error = "Utilisateur non trouvé.";
+        $error = "Matricule ou mot de passe incorrect.";
     }
-}
-?>
 
+?>
 
 <!DOCTYPE html>
 <html lang="fr">

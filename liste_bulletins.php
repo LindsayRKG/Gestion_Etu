@@ -1,4 +1,5 @@
 <?php
+use App\Bulletin;
 // Connexion à la base de données
 require_once 'Classes/Database.php';
 require_once 'Classes/Etudiant.php';
@@ -30,7 +31,7 @@ $etudiants = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Liste des Versements</title>
-
+        <link rel="stylesheet" href="assets/css/style1.css">
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
         <!-- Lien vers Font Awesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -67,6 +68,20 @@ $etudiants = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 color: white;
                 /* Couleur du texte blanche */
             }
+            .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0px;
+            overflow-wrap: break-word;
+            background-color: rgb(255, 255, 255);
+            background-clip: border-box;
+            border-width: 1px;
+            border-style: solid;
+            border-color: rgba(0, 0, 0, 0.125);
+            border-image: initial;
+            border-radius: 4.25rem;
+        }
         </style>
     </head>
 

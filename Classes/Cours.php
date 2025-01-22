@@ -1,4 +1,8 @@
 <?php
+namespace App;
+use PDO;
+use PDOException;
+use FPDF;
 class Cours {
     private $db;
 

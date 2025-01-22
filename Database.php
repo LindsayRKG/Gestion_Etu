@@ -2,10 +2,10 @@
 
 class Database {
     
-    private $host = '127.0.0.1';
-    private $dbName = 'etudiants';
+    private $host = 'localhost';
+    private $dbName = 'basededonnes';
     private $username = 'root';
-    private $password = 'Lyreb1234.';
+    private $password = '';
     private $connection;
 
     // Méthode pour obtenir la connexion

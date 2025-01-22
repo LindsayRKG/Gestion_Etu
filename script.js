@@ -222,3 +222,75 @@ function searchTable() {
     }
 }
 // Appel pour récupérer les données
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const currentDateElement = document.getElementById('currentDate');
+  
+    if (!darkModeToggle || !currentDateElement) {
+      console.error('Required elements not found in the DOM.');
+      return;
+    }
+  
+    // Initialize theme
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateToggleIcon(savedTheme);
+  
+    // Toggle theme on button click
+    darkModeToggle.addEventListener('click', toggleTheme);
+  
+    // Update current date
+    updateCurrentDate(currentDateElement);
+  
+    // Observe theme changes for chart updates
+    const observer = new MutationObserver(() => {
+      updateChartsTheme();
+    });
+  
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme']
+    });
+  });
+  
+  function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateToggleIcon(newTheme);
+  }
+  
+  function updateToggleIcon(theme) {
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    if (darkModeToggle) {
+      darkModeToggle.textContent = theme === 'light' ? '🌙' : '☀️';
+    }
+  }
+  
+  function updateCurrentDate(element) {
+    const currentDate = new Date().toLocaleDateString('fr-FR', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+    element.textContent = currentDate;
+  }
+  
+  function updateChartsTheme() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const textColor = isDark ? '#f3f4f6' : '#111827';
+    
+    Chart.defaults.color = textColor;
+    Chart.defaults.borderColor = isDark ? '#374151' : '#e5e7eb';
+    
+    // Update all existing charts
+    if (Chart.instances && Chart.instances.length > 0) {
+      Chart.instances.forEach(chart => chart.update());
+    }
+  }

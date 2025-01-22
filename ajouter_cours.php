@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Modifier un étudiant</title>
 
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-   <link rel="stylesheet" href="/assets/css/style1.css">
+   <link rel="stylesheet" href="assets/css/style1.css">
     <style>
       
     </style>

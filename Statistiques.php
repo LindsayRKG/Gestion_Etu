@@ -45,8 +45,8 @@
           
 
 
-            <div class="chart">
-            <h3>Tenadance des Versements </h3>
+            <!-- <div class="chart">
+            <h3>Tendance des Versements </h3>
             <canvas id="tendanceVersementsChart"></canvas>
           </div>
 
@@ -56,7 +56,7 @@
           <div class="chart">
             <h3>Nombres de notes pas cours</h3>
             <canvas id="coursParNotesChart"></canvas>
-          </div>
+          </div> -->
 
        
  
@@ -176,7 +176,7 @@
                 const data = await fetchData('cours_par_notes');
                 const labels = data.map(d => d.nom_cours);
                 const nombreNotes = data.map(d => d.nombre_notes);
-                const backgroundColors = 'rgba(153, 102, 255, 0.6)';
+                const backgroundColors = 'rgba(103, 61, 187, 0.6)';
 
                 const datasets = [{
                     label: 'Nombre de Notes',
@@ -197,7 +197,7 @@
                 console.log('Données des versements par jour:', data); // Ajoutez ce log pour vérifier les données
                 const labels = data.map(d => d.date);
                 const totalVersements = data.map(d => d.total_versements);
-                const backgroundColors = 'rgba(54, 162, 235, 0.6)';
+                const backgroundColors = 'rgba(214, 54, 235, 0.6)';
 
                 const datasets = [{
                     label: 'Total des Versements',
