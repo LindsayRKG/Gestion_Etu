@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             position: absolute;
             width: 300px;
             height: 300px;
-            background: radial-gradient(circle, rgba(0, 119, 255, 0.5), transparent 70%);
+            background: radial-gradient(circle, rgba(0, 119, 255, 0.66), transparent 70%);
             filter: blur(100px);
             z-index: 0;
         }
@@ -63,13 +63,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         body::before {
             top: -150px;
             right: -150px;
-            background: radial-gradient(circle, rgba(0, 119, 255, 0.5), transparent 70%); /* Reflet bleu */
+            background: radial-gradient(circle, rgba(0, 119, 255, 0.67), transparent 70%); /* Reflet bleu */
         }
 
         body::after {
             bottom: -150px;
             left: -150px;
-            background: radial-gradient(circle, rgba(255, 165, 0, 0.5), transparent 70%); /* Reflet orange */
+            background:radial-gradient(circle, rgb(225 156 31), transparent 70%); /* Reflet orange */
         }
 
         .wrapper {
@@ -125,13 +125,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             align-items: center;
             justify-content: center;
             gap: 0.5em;
-            border-radius: 25px;
-            padding: 0.6em;
+            border-radius: 28px;
+            padding: 1.2em;
             border: none;
             outline: none;
             color: white;
             background-color: rgba(23, 23, 23, 0.3); /* Champ semi-transparent */
-            box-shadow: inset 2px 5px 10px rgba(5, 5, 5, 0.5);
+            box-shadow:inset 2px 5px 10px rgb(164 128 95 / 27%);
             margin-bottom: 1.5em; /* Augmentation de l'espace entre les champs */
         }
 
@@ -345,12 +345,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         .register-link a {
             text-decoration: none;
-            color: rgb(68, 106, 181);
+            color: rgb(29, 65, 138);
             transition: color 0.3s;
         }
 
         .register-link a:hover {
-            color: #4b45c6;
+            color:rgb(69, 110, 198);
         }
 
         .error-message {
@@ -513,13 +513,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="btn">
                 <button type="submit" class="button">
                     <span class="dots_border"></span>
-                    <span class="sparkle">
+                    <!-- <span class="sparkle">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path class="path" d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
                             <path class="path" d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
                             <path class="path" d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
                         </svg>
-                    </span>
+                    </span> -->
                     <span class="text_button">Connexion</span>
                 </button>
             </div>
@@ -548,11 +548,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <button type="submit" class="button">
                     <span class="dots_border"></span>
                     <span class="sparkle">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path class="path" d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
                             <path class="path" d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
                             <path class="path" d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-                        </svg>
+                        </svg> -->
                     </span>
                     <span class="text_button">Se connecter</span>
                 </button>

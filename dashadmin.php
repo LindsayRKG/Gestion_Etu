@@ -1,4 +1,7 @@
 <?php
+use App\Database;
+use App\Cours;
+use App\Notes;  
 // Connexion à la base de données (modifiez avec vos informations de connexion)
 include_once 'Classes/Database.php';
 include_once 'Classes/Cours.php';
@@ -140,6 +143,13 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
       <li class="switch-theme">
         <a href="#"><ion-icon name="moon-outline"></ion-icon>
           <p>Darkmode</p>
+           <!-- Bouton de bascule de thème -->
+          <div class="theme-switcher">
+            <button id="theme-toggle">
+              <ion-icon name="moon-outline" class="moon-icon"></ion-icon>
+              <ion-icon name="sunny-outline" class="sun-icon"></ion-icon>
+            </button>
+          </div>
         </a>
       </li>
       <li>
@@ -223,14 +233,6 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
         </div>
       </section>
     </main>
-  </div>
-
-  <!-- Bouton de bascule de thème -->
-  <div class="theme-switcher">
-    <button id="theme-toggle">
-      <ion-icon name="moon-outline" class="moon-icon"></ion-icon>
-      <ion-icon name="sunny-outline" class="sun-icon"></ion-icon>
-    </button>
   </div>
 
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -391,23 +393,42 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
     // Charger les graphiques initialement
     updateAllCharts();
 
-    // Gestion du basculement de thème
     document.addEventListener('DOMContentLoaded', function() {
-      const themeToggle = document.getElementById('theme-toggle');
-      const body = document.body;
+  const themeToggle = document.getElementById('theme-toggle');
+  const body = document.body;
+  const moonIcon = themeToggle.querySelector('.moon-icon');
+  const sunIcon = themeToggle.querySelector('.sun-icon');
 
-      themeToggle.addEventListener('click', function() {
-        const isDarkMode = body.getAttribute('data-theme') === 'dark';
-        body.setAttribute('data-theme', isDarkMode ? 'light' : 'dark');
-        localStorage.setItem('theme', isDarkMode ? 'light' : 'dark');
-      });
+  // Fonction pour mettre à jour les icônes en fonction du thème
+  function updateIcons(isDarkMode) {
+    if (isDarkMode) {
+      moonIcon.style.display = 'none';
+      sunIcon.style.display = 'block';
+    } else {
+      moonIcon.style.display = 'block';
+      sunIcon.style.display = 'none';
+    }
+  }
 
-      // Vérifiez le thème stocké dans localStorage
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme) {
-        body.setAttribute('data-theme', savedTheme);
-      }
-    });
+  // Gestion du clic sur le bouton
+  themeToggle.addEventListener('click', function() {
+    const isDarkMode = body.getAttribute('data-theme') === 'dark';
+    body.setAttribute('data-theme', isDarkMode ? 'light' : 'dark');
+    localStorage.setItem('theme', isDarkMode ? 'light' : 'dark');
+    updateIcons(!isDarkMode);
+  });
+
+  // Vérifiez le thème stocké dans localStorage
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    body.setAttribute('data-theme', savedTheme);
+    updateIcons(savedTheme === 'dark');
+  } else {
+    // Si aucun thème n'est stocké, utilisez le thème par défaut (light)
+    body.setAttribute('data-theme', 'light');
+    updateIcons(false);
+  }
+});
   </script>
   <footer id="footer" class="footer">
     <div class="copyright">

@@ -29,7 +29,7 @@
   --dark-gray: #1A1A1A; /* Gris plus foncé pour un meilleur contraste */
   --white: #1E1E1E; /* Fond sombre pour les éléments */
   --text-color: #FFFFFF; /* Texte clair pour le mode sombre */
-  --hover-bg: #2A2A2A; /* Couleur de fond au survol pour le mode sombre */
+  --hover-bg: #5a9f5c; /* Couleur de fond au survol pour le mode sombre */
   --active-bg: #333333; /* Couleur de fond actif pour le mode sombre */
   --active-text: #FFFFFF; /* Couleur du texte actif pour le mode sombre */
   --sidebar-text-color: #FFFFFF; /* Couleur des écritures de la sidebar pour le mode sombre */
@@ -237,9 +237,91 @@ body {
 
 .container {
   display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100vh;
-  overflow: hidden;
-  position: relative;
+  padding: 20px;
+}
+
+/* Style du formulaire */
+.form-container {
+  background-color: var(--dark-gray);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--text-color);
+}
+
+/* Style des inputs */
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="date"],
+.form-container select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid var(--main-color);
+  border-radius: 10px;
+  background-color: var(--light-gray);
+  color: var(--text-color);
+  transition: border-color var(--main-transition);
+}
+
+.form-container input[type="text"]:focus,
+.form-container input[type="email"]:focus,
+.form-container input[type="date"]:focus,
+.form-container select:focus {
+  border-color: var(--active-bg);
+  outline: none;
+}
+
+/* Style du bouton Ajouter */
+.form-container button {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--active-bg);
+  color: var(--active-text);
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color var(--main-transition);
+}
+
+.form-container button:hover {
+  background-color: var(--hover-bg);
+}
+
+/* Style du fichier upload */
+.form-container input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid var(--main-color);
+  border-radius: 10px;
+  background-color: var(--light-gray);
+  color: var(--text-color);
+  transition: border-color var(--main-transition);
+}
+
+.form-container input[type="file"]:focus {
+  border-color: var(--active-bg);
+  outline: none;
+}
+
+/* Style du texte sous le bouton Ajouter */
+.form-container .footer-text {
+  text-align: center;
+  margin-top: 20px;
+  color: var(--text-color);
+  font-size: 14px;
 }
 
 /* Contenu principal */

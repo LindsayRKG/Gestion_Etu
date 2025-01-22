@@ -1,4 +1,7 @@
 <?php
+use App\Notes;
+use App\Database;
+use App\Etudiant;
 require_once 'Classes/Database.php';
 require_once 'Classes/Etudiant.php';
 require_once 'Classes/Notes.php';
@@ -8,7 +11,6 @@ ini_set('display_errors', 1);
 
 $database = new Database();
 $db = $database->getConnection();
-
 $etudiantManager = new Etudiant($db);
 $etudiants = $etudiantManager->obtenirTous();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -71,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Modifier un étudiant</title>
 
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/style1.css">
+    <link rel="stylesheet" href="assets/css/style1.css">
     <style>
         body {
             background-color: #f8f9fa;

@@ -1,4 +1,8 @@
 <?php
+namespace App;
+use PDO;
+use PDOException;
+use FPDF;
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);

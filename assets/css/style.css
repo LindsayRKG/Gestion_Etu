@@ -27,9 +27,9 @@
 [data-theme="dark"] {
   --light-gray: #0A0A0A;
   --dark-gray: #1A1A1A;
-  --white: #0A0A0A;
+  --white: #fcf3f3;
   --text-color: #FFFFFF;
-  --hover-bg: #FF6B6B;
+  --hover-bg: #00d1c4;
   --active-bg: #4ECDC4;
   --active-text: #FFFFFF;
   --sidebar-text-color: #FFFFFF;
@@ -420,7 +420,7 @@ body {
 }
 
 [data-theme="dark"] .main-header .info {
-  background-color: var(--white);
+  background-color: #1a1a1a;
   color: var(--text-color);
 }
 
@@ -500,7 +500,8 @@ table tr:hover {
   justify-content: center;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition: background-color var(--main-transition), transform var(--main-transition);
+  position: relative;
 }
 
 #theme-toggle:hover {
@@ -511,7 +512,8 @@ table tr:hover {
 .moon-icon, .sun-icon {
   font-size: 24px;
   color: var(--white);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity var(--main-transition), transform var(--main-transition);
+  position: absolute;
 }
 
 .moon-icon {
@@ -520,7 +522,6 @@ table tr:hover {
 
 .sun-icon {
   opacity: 0;
-  position: absolute;
 }
 
 [data-theme="dark"] .moon-icon {
@@ -550,4 +551,17 @@ table tr:hover {
     transform: translateY(0);
     opacity: 1;
   }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#theme-toggle:hover ion-icon {
+  animation: rotate 1s ease-in-out;
 }
