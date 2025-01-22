@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 70vh; /* Utilisez min-height pour couvrir toute la hauteur de l'écran */
+            min-height: 51vh; /* Utilisez min-height pour couvrir toute la hauteur de l'écran */
             margin: 0;
             background-color: #171717;
             font-family: 'Poppins', sans-serif;
