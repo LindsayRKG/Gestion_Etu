@@ -52,13 +52,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $dateVersement = date('d-m-Y');
         $cheminRecu = $manager->genererRecuPDF(
             $matricule,
-            $etudiant['nom'],
-            $etudiant['prenom'],
-            $etudiant['Niveau'],
+            $etudiant['nom'] ?? '',
+            $etudiant['prenom'] ?? '',
+            $etudiant['Niveau'] ?? '',
             $montantVerse,
             $resteAVerser,
-            $dateVersement
+            $dateVersement,
+            $emailParent,
+            $emailEtudiant
         );
+        
 
         // Vérifier si le fichier a bien été créé avant d'afficher le message
         if (file_exists($cheminRecu)) {
@@ -67,6 +70,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = "Le versement a été enregistré, mais le reçu n'a pas pu être généré.";
         }
 
+        try {
+            // Code pour envoyer l'e-mail
+        } catch (PHPMailer\PHPMailer\Exception $e) {
+            $error = "Erreur lors de l'envoi de l'e-mail : " . $e->getMessage();
+        }
         
     }
 }

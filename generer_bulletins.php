@@ -39,7 +39,7 @@ if (isset($_GET['etudiant_id'])) {
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Lien vers Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    
+
     <style>
         body {
             background-color: #f8f9fa;
@@ -72,23 +72,7 @@ if (isset($_GET['etudiant_id'])) {
             color: white;
             /* Couleur du texte blanche */
         }
-
-        .card {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            min-width: 0px;
-            overflow-wrap: break-word;
-            background-color: rgb(255, 255, 255);
-            background-clip: border-box;
-            border-width: 1px;
-            border-style: solid;
-            border-color: rgba(0, 0, 0, 0.125);
-            border-image: initial;
-            border-radius: 4.25rem;
-        }
     </style>
-
 </head>
 
 <body>

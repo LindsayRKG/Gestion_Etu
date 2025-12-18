@@ -9,57 +9,53 @@ ini_set('display_errors', 1);
 $database = new Database();
 $db = $database->getConnection();
 
-$etudiantManager = new Etudiant($db);
-$etudiants = $etudiantManager->obtenirTous();
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $etudiant_id = $_POST['etudiant_id'];
-    $cours_id = $_POST['cours_id'];
-    $type_note = $_POST['type_note'];
-    $valeur = $_POST['valeur'];
-    $annee_scolaire = $_POST['annee_scolaire'];
-    $niveau_etudiant = $_POST['niveau_etudiant'];
+// Récupérer les étudiants d'une classe donnée
+function getEtudiantsParClasse($db, $classe) {
+    $sql = "SELECT id, nom, prenom, CONCAT(nom, ' ', prenom) AS display_value FROM etudiants WHERE Niveau = :Niveau";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam(':Niveau', $classe);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
-   // Récupérer le niveau de l'étudiant
-   $query_etudiant = "SELECT Niveau FROM etudiants WHERE id = :etudiant_id";
-   $stmt_etudiant = $db->prepare($query_etudiant);
-   $stmt_etudiant->execute(['etudiant_id' => $etudiant_id]);
-   $niveau_etudiant = $stmt_etudiant->fetchColumn();
+// Vérifier si une classe a été sélectionnée
+if (isset($_GET['Niveau']) && !empty($_GET['Niveau'])) {
+    $classe = $_GET['Niveau'];
+    $etudiants = getEtudiantsParClasse($db, $classe);
+} else {
+    echo "Aucune classe sélectionnée.";
+    exit;
+}
 
-   // Récupérer le niveau du cours sélectionné
-   $query_cours = "SELECT niveau FROM cours WHERE id = :cours_id";
-   $stmt_cours = $db->prepare($query_cours);
-   $stmt_cours->execute(['cours_id' => $cours_id]);
-   $niveau_cours = $stmt_cours->fetchColumn();
+// Fonction pour insérer les données dans la table cible
+function insertElements($db, $data, $cat,$mat) {
+    $sql = "INSERT INTO notes (etudiant_id,cours_id,type_note,valeur) VALUES (:etudiant_id, :cours_id,:type_note, :valeur)";
+    $stmt = $db->prepare($sql);
+    foreach ($data as $row) {
+        $stmt->bindParam(':etudiant_id', $row['etudiant_id']);
+        $stmt->bindParam(':valeur', $row['valeur']);
+        $stmt->bindParam(':cours_id', $mat);
+        $stmt->bindParam(':type_cours', $cat);
+        $stmt->execute();
+    }
+}
 
-   // Vérifier si les niveaux de l'étudiant et du cours sont identiques
-   if (trim($niveau_etudiant) !== trim($niveau_cours)) {
-       $message = "Erreur : L'étudiant et le cours doivent être du même niveau !";
-   } else {
-       // Vérifier si une note existe déjà pour l'étudiant, le cours et le type d'évaluation
-       $query_existing_note = "SELECT id FROM notes WHERE etudiant_id = :etudiant_id AND cours_id = :cours_id AND type_note = :type_note";
-       $stmt_existing_note = $db->prepare($query_existing_note);
-       $stmt_existing_note->execute(['etudiant_id' => $etudiant_id, 'cours_id' => $cours_id, 'type_note' => $type_note]);
-       $existing_note = $stmt_existing_note->fetchColumn();
-
-       if ($existing_note) {
-           // Si la note existe déjà, mettre à jour la note
-           $query_update_note = "UPDATE notes SET valeur = :valeur, annee_scolaire = :annee_scolaire WHERE id = :id";
-           $stmt_update_note = $db->prepare($query_update_note);
-           $stmt_update_note->execute(['valeur' => $valeur, 'annee_scolaire' => $annee_scolaire, 'id' => $existing_note]);
-           $message = "Note mise à jour avec succès !";
-       } else {
-           // Si la note n'existe pas, ajouter une nouvelle note
-           $noteManager = new Notes($db);
-           if ($noteManager->ajouterNote($etudiant_id, $cours_id, $type_note, $valeur, $annee_scolaire)) {
-               $message = "Note ajoutée avec succès !";
-           } else {
-               $message = "Erreur lors de l'ajout de la note.";
-           }
-       }
-   }
+// Traitement du formulaire
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $cat = $_POST['type_cours'];
+    $mat = $_POST['cours_id'];
+    $data = [];
+    foreach ($_POST['notes'] as $id => $note) {
+        $data[] = [
+            'etudiant_id' => $id,
+            'valeur' => $note,
+        ];
+    }
+    insertElements($db, $data, $cat,$mat);
+    header("Location: etd.php");
+    exit;
 }
 ?>
-
 
 
 <!DOCTYPE html>
@@ -72,6 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style1.css">
+    
  
 </head>
 
@@ -92,6 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="col-md-12">
             <div class="card">
                 <h1 class="mt-5">Ajouter une Note</h1>
+                <h2>Étudiants de la classe : <?php echo htmlspecialchars($classe); ?></h2>
                 <?php if (isset($message)) : ?>
                     <div class="alert alert-info"><?= $message ?></div>
                 <?php endif; ?>

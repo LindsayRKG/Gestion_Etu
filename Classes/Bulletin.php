@@ -321,7 +321,7 @@ class Bulletin
         $pdf->SetTextColor(0, 0, 0);
         $pdf->Cell(0, 10, 'Hash numerique: ' . $hash, 0, 1, 'C');
         // Créer le dossier Bulletins si nécessaire
-        $bulletins_dir = __DIR__ . '/Bulletins/'; // Utilise __DIR__ pour obtenir le chemin absolu
+        $bulletins_dir = __DIR__ . 'Bulletins/'; // Utilise __DIR__ pour obtenir le chemin absolu
         if (!file_exists($bulletins_dir)) {
             mkdir($bulletins_dir, 0777, true); // Crée le dossier avec des permissions d'écriture
         }
@@ -359,7 +359,7 @@ class Bulletin
         $etudiant = $this->getInformationsEtudiant();
 
         // Chemin du dossier des bulletins
-        $bulletins_dir = __DIR__ . '/Bulletins/'; // Utilisation de __DIR__ pour obtenir le chemin absolu du dossier
+        $bulletins_dir = __DIR__ . 'Bulletins/'; // Utilisation de __DIR__ pour obtenir le chemin absolu du dossier
 
         // Construction du nom du fichier PDF
         $bulletin_file = $bulletins_dir . 'bulletin_etudiant_' . $etudiant['nom'] . '_' . $etudiant['prenom'] . '.pdf';

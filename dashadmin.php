@@ -167,16 +167,8 @@ $moyenne_par_classe = $stmt4->fetchAll(PDO::FETCH_ASSOC);
       <div class="info">
         <p>Date : <span id="currentDate"></span></p>
       </div>
-<<<<<<< HEAD
-      <!-- <div class="search-bar">
-        <form class="search-form d-flex align-items-center" method="POST" action="#">
-          <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-          <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-        </form>
-      </div> -->
-=======
+
      
->>>>>>> fa22d55 (derniere (presque) version)
     </header>
 
     <main class="main-content">

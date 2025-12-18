@@ -117,9 +117,9 @@ public function getStudentById() {
 
     // Récupérer les versements de l'étudiant
     public function getVersements() {
-        // Requête SQL pour récupérer les versements de l'étudiant en utilisant 'etudiant_id'
-        $stmt = $this->conn->prepare("SELECT * FROM versements WHERE etudiant_id = :etudiant_id");
-        $stmt->bindParam(':etudiant_id', $this->id); // L'ID de l'étudiant
+        // Requête SQL pour récupérer les versements de l'étudiant en utilisant 'id'
+        $stmt = $this->conn->prepare("SELECT * FROM versements WHERE id = :id");
+        $stmt->bindParam(':id', $this->id); // L'ID de l'étudiant
         $stmt->execute();
         
         // Retourne les résultats sous forme de tableau associatif
@@ -131,10 +131,10 @@ public function getStudentById() {
             SELECT n.valeur, c.nom AS cours, n.type_note 
             FROM notes n
             JOIN cours c ON n.cours_id = c.id
-            WHERE n.etudiant_id = :etudiant_id";
+            WHERE n.id = :id";
         
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':etudiant_id', $this->id);
+        $stmt->bindParam(':id', $this->id);
         $stmt->execute();
         
         $notes = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -152,9 +152,9 @@ public function getStudentById() {
 
     // Récupérer le bulletin de l'étudiant avec son rang et GPA
     public function getBulletin() {
-        $query = "SELECT * FROM bulletins WHERE etudiant_id = :etudiant_id";
+        $query = "SELECT * FROM bulletins WHERE id = :id";
         $stmt = $this->conn->prepare($query);
-        $stmt->execute(['etudiant_id' => $this->id]);
+        $stmt->execute(['id' => $this->id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     
@@ -353,12 +353,12 @@ public function genererMatricule($Niveau)
     private function supprimerBulletinsAssocies()
     {
         try {
-            $sql = "DELETE FROM bulletins WHERE etudiant_id = :etudiant_id";
+            $sql = "DELETE FROM bulletins WHERE id = :id";
             $stmt = $this->conn->prepare($sql);
     
             // Récupérer l'ID de l'étudiant à partir du matricule
-            $etudiant_id = $this->getEtudiantId();
-            $stmt->bindParam(':etudiant_id', $etudiant_id);
+            $id = $this->getEtudiantId();
+            $stmt->bindParam(':id', $id);
     
             $stmt->execute();
         } catch (PDOException $e) {
@@ -458,17 +458,10 @@ public function genererMatricule($Niveau)
         $pdf->SetTextColor(0, 0, 128); // Couleur texte (bleu foncé)
         $pdf->Image('images/logoK.png', 5, 5, 15); // Exemple avec un chemin relatif valide
     
-<<<<<<< HEAD
         $pdf->SetXY(20, 5);
         $pdf->Cell(60, 5, 'MINISTERE DE L\' ENSEIGNEMENT SUPERIEURS ', 0, 1, 'L');
         $pdf->SetX(20);
         $pdf->Cell(60, 5, 'DU CAMEROUN', 0, 1, 'L');
-=======
-        $pdf->SetXY(25, 5);
-        $pdf->Cell(70, 5, 'MINISTERE DES ENSEIGNEMENTS', 0, 1, 'C');
-        $pdf->SetX(25);
-        $pdf->Cell(70, 5, 'SUPERIEURS', 0, 1, 'C');
->>>>>>> fa22d55 (derniere (presque) version)
     
         // Titre principal
         $pdf->SetFont('Arial', 'B', 12);
@@ -506,7 +499,13 @@ public function genererMatricule($Niveau)
     }
     
     
-
+// Récupération des classes
+function getClasses($db) {
+    $sql = "SELECT DISTINCT Niveau FROM etudiants";
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
     function envoyerEmail($emailDestinataire, $sujet, $message, $fichierJoint = null) {
         $mail = new PHPMailer(true);
     

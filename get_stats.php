@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 $host = 'localhost'; // Remplacez par vos informations
 $dbname = 'basededonnes'; // Remplacez par le nom de votre base
 $username = 'root'; // Remplacez par votre utilisateur
-$password = ''; // Remplacez par votre mot de passe
+$password = 'Callita4'; // Remplacez par votre mot de passe
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);

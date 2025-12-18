@@ -2,10 +2,10 @@
 
 class Database {
     
-    private $host = 'localhost';
+    private $host = 'localhost'; 
     private $dbName = 'basededonnes';
     private $username = 'root';
-    private $password = 'Callita4';
+    private $password = '';
     private $connection;
 
     // Méthode pour obtenir la connexion

@@ -9,23 +9,20 @@ $db = $database->getConnection();
 
 $etudiant = new Etudiant($db);
 
+$error = '';
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $matricule = $_POST['username'];
     $password = $_POST['password'];
 
     if ($etudiant->login($matricule, $password)) {
         $_SESSION['student_id'] = $etudiant->id;
-
-        // if (!$etudiant->password_changed) {
-        //     header('Location: change_password.php');
-        // } else {
         header('Location: dashEtud.php');
+        exit();
+    } else {
+        $error = "Matricule ou mot de passe incorrect.";
     }
-    exit();
-} else {
-    $error = "Matricule ou mot de passe incorrect.";
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,31 +30,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>login</title>
-    
-   
-    <link rel="stylesheet" href="assets/css/style1.css">
-
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
-            
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start; /* Alignement en haut */
             height: 100vh;
             margin: 0;
-            
-    
-    background-color: #f8f9fa;
-    font-family: 'Poppins',sans-serif;
-}
-      
+            background-color: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
+        }
 
         .wrapper {
             width: 100%;
             max-width: 400px;
             position: relative;
             perspective: 1000px;
+            margin-top: 10vh; /* Déplacer le container plus haut */
+            transform: translateY(-50%); /* Ajuster le centrage vertical */
         }
 
         .form-container {
@@ -65,6 +57,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             position: absolute;
             transition: transform 0.8s ease-in-out;
             backface-visibility: hidden;
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .form-container.front {
@@ -83,35 +79,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             transform: rotateY(0);
         }
 
-        form {
-<<<<<<< HEAD
-            background: #fff;
-            padding: 63px;
-            border-radius: 37px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        h1 {
+        h1, h2 {
             font-size: 24px;
             color: #333;
             text-align: center;
-            margin-bottom: 49px;
-=======
-            border-radius: 45px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #ebe7e5;
-    padding: 90px;
-    margin-top: 20px;
-    max-width: 720px; /* Réduire la largeur du formulaire */
-    margin: auto; /* Centrer le formulaire */
-    
-        }
-
-        h1 {
-            font-weight: bold;
-            color: #59595a;    font-weight: bold;
-            color: #59595a;
->>>>>>> fa22d55 (derniere (presque) version)
+            margin-bottom: 20px;
         }
 
         .input-box {
@@ -120,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .input-box input {
-            width: 100%;
+            width: calc(100% - 50px); /* Ajuster la largeur pour ne pas dépasser */
             padding: 10px 40px;
             border: 1px solid #ccc;
             border-radius: 24px;
@@ -142,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             width: 100%;
             padding: 10px;
             border: none;
-            border-radius: 38px;
+            border-radius: 24px;
             background-color: #685cfe;
             color: white;
             font-size: 16px;
@@ -168,61 +140,60 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .register-link a:hover {
             color: #4b45c6;
         }
+
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-bottom: 20px;
+        }
     </style>
-</head>
 </head>
 
 <body>
     <div class="wrapper">
-        <form action="recuperation.php" method="post" id="connexion">
+        <form action="recuperation.php" method="post" id="connexion" class="form-container front">
             <h1>Connexion Administrateur</h1>
+            <?php if (!empty($error)): ?>
+                <div class="error-message"><?php echo $error; ?></div>
+            <?php endif; ?>
             <div class="input-box">
                 <input type="text" name="nom" id="nom" placeholder="Nom utilisateur" required>
-                <i class="bx bxs-user"></i>
+                <i class="fas fa-user"></i>
             </div>
 
             <div class="input-box">
                 <input type="password" name="pass" id="passe" placeholder="Mot de Passe" required>
-                <i class="bx bxs-lock-alt"></i>
+                <i class="fas fa-lock"></i>
             </div>
 
             <div class="register-link">
-                <p><a href="#" id="btn_formulaire_form">Se connecter en tant que étudiant </a></p>
+                <p><a href="#" id="btn_formulaire_form">Se connecter en tant qu'étudiant</a></p>
             </div>
             <button type="submit" class="btn">Connexion</button>
-
-
         </form>
 
-
-
-
-        <form method="POST" action="" id="formulaire_enregistrement">
-
+        <form method="POST" action="" id="formulaire_enregistrement" class="form-container back">
             <h2>Connexion Étudiant</h2>
+            <?php if (!empty($error)): ?>
+                <div class="error-message"><?php echo $error; ?></div>
+            <?php endif; ?>
+            <div class="input-box">
+                <input type="text" name="username" placeholder="Nom d'utilisateur (Matricule)" required>
+                <i class="fas fa-user"></i>
+            </div>
 
             <div class="input-box">
-                <label>Nom d'utilisateur (Matricule) :</label>
-                <i class="bx bxs-user"></i>
-            </div>
-            <div class="input-box">
-                <input type="text" name="username" required>
-                <i class="bx bxs-lock-alt"></i>
+                <input type="password" name="password" placeholder="Mot de passe" required>
+                <i class="fas fa-lock"></i>
             </div>
 
             <div class="register-link">
-                <label>Mot de passe :</label>
+                <p><a href="#" id="btn_login_form">Se connecter en tant qu'admin</a></p>
             </div>
-
-            <input type="password" name="password" required>
-            <button type="submit">Se connecter</button>
-
-
-            <div class="register-link">
-                <p><a href="#" id="btn_login_form">Se conneter en tant que admin</a></p>
-            </div>
+            <button type="submit" class="btn">Se connecter</button>
         </form>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -240,22 +211,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         });
     </script>
 </body>
-
-<script src="plugins/jquery.min.js"></script>
-
-<script type="text/javascript">
-    $(document).ready(function(e) {
-        $("#formulaire_enregistrement").hide();
-        $("#btn_formulaire_form").click(function() {
-            $("#connexion").hide();
-            $("#formulaire_enregistrement").show();
-        });
-
-        $("#btn_login_form").click(function() {
-            $("#connexion").show();
-            $("#formulaire_enregistrement").hide();
-        });
-    });
-</script>
 
 </html>

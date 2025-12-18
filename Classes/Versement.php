@@ -2,7 +2,14 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-require_once 'lib/fpdf.php';
+
+require_once __DIR__ . '/../lib/fpdf.php';
+require_once 'lib/PHPMailer-master/src/Exception.php';
+require_once 'lib/PHPMailer-master/src/PHPMailer.php';
+require_once 'lib/PHPMailer-master/src/SMTP.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 
 
@@ -108,15 +115,17 @@ class VersementManager
     }
 
 
-    function genererRecuPDF($matricule, $nom, $prenom, $classe, $montantVerse, $resteAVerser, $dateVersement) {
+   
+    
+    function genererRecuPDF($matricule, $nom, $prenom, $classe, $montantVerse, $resteAVerser, $dateVersement, $emailParent, $emailEtudiant) {
         // Nom du dossier
         $directory = 'recus_versements';
-        
+    
         // Vérification et création du dossier si nécessaire
         if (!file_exists($directory)) {
             mkdir($directory, 0777, true);
         }
-        
+    
         // Chemin complet du fichier PDF
         $cheminRecu = $directory . "/$matricule-recu-" . time() . ".pdf";
     
@@ -159,29 +168,64 @@ class VersementManager
         $pdf->SetFont('Arial', 'I', 12);
         $pdf->Cell(0, 10, 'Signature de l\'administration', 0, 1, 'R');
     
-        // // Enregistrer le fichier PDF
-        // $pdf->Output('F', $cheminRecu);
+        // Enregistrer le fichier PDF
+        try {
+            $pdf->Output('F', $cheminRecu);
+        } catch (Exception $e) {
+            throw new Exception("Erreur lors de la génération du reçu : " . $e->getMessage());
+        }
+    
+        // Envoyer le reçu par e-mail
+        try {
+            $mail = new PHPMailer(true);
+            $mail->isSMTP();
+            $mail->Host = 'smtp.example.com'; // Remplacez par votre serveur SMTP
+            $mail->SMTPAuth = true;
+            $mail->Username = 'lindsayrbcc@gmail.com'; // Votre adresse e-mail
+            $mail->Password = 'yvoqhaovgcknnham'; // Votre mot de passe
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
 
-         // Enregistrer le fichier PDF
-    try {
-        $pdf->Output('F', $cheminRecu);
-    } catch (Exception $e) {
-        throw new Exception("Erreur lors de la génération du reçu : " . $e->getMessage());
-    }
+            $emailParent = $etudiant['emailParent'] ?? null; // Remplacez 'emailParent' par le bon champ si différent
+$emailEtudiant = $etudiant['emailEtudiant'] ?? null; // Remplacez 'emailEtudiant' par le bon champ si différent
 
+    
+            // Configurer l'expéditeur et le destinataire
+            $mail->setFrom('lindsayrbcc@gmail.com', 'Nom de l\'administration');
+            $mail->addAddress($emailParent, 'Parent de ' . $nom . ' ' . $prenom);
+            $mail->addCC($emailEtudiant, $nom . ' ' . $prenom); // Ajouter l'étudiant en copie
+    
+            // Ajouter le fichier PDF en pièce jointe
+            $mail->addAttachment($cheminRecu);
+    
+            // Contenu de l'e-mail
+            $mail->isHTML(true);
+            $mail->Subject = 'Reçu de versement';
+            $mail->Body = "Bonjour,<br><br>
+            Veuillez trouver ci-joint le reçu du versement effectué par $nom $prenom le $dateVersement.<br><br>
+            Cordialement,<br>
+            Administration";
+    
+            // Envoyer l'e-mail
+            $mail->send();
+        } catch (Exception $e) {
+            throw new Exception("Erreur lors de l'envoi de l'e-mail : " . $mail->ErrorInfo);
+        }
     
         return $cheminRecu;
     }
     
-
+    
     public function getEtudiantDetails($matricule) {
-        $query = "SELECT nom, prenom, Niveau FROM etudiants WHERE matricule = :matricule";
+        $query = "SELECT nom, prenom, Niveau, Email, emailPrt FROM etudiants WHERE matricule = :matricule";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':matricule', $matricule);
         $stmt->execute();
-        
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    
+
+    
 
     
 

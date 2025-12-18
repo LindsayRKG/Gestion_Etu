@@ -2,8 +2,8 @@
 
 class Database {
     
-    private $host = 'localhost';
-    private $dbName = 'basededonnes';
+    private $host = '127.0.0.1';
+    private $dbName = 'basesdedonnes';
     private $username = 'root';
     private $password = 'Callita4';
     private $connection;
